@@ -1,20 +1,44 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitter Card</title>
-    
-    <!-- Twitter Card meta tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@tonCompteTwitter"> <!-- Remplace par ton compte Twitter -->
-    <meta name="twitter:title" content="Titre du NFT Mini-Jeu">
-    <meta name="twitter:description" content="Description du mini-jeu ou du symbole.">
-    <meta name="twitter:image" content="URL_de_l_image_ici"> <!-- Remplace par le lien de l'image -->
-    
-    <link rel="stylesheet" href="styles.css"> <!-- Si tu as des styles CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Card</title>
+  <!-- Balises Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="">
+  <script>
+    // Fonction pour récupérer les paramètres de l'URL
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split("&").forEach(pair => {
+        const [key, value] = pair.split("=");
+        params[decodeURIComponent(key)] = decodeURIComponent(value);
+      });
+      return params;
+    }
+
+    // Mettre à jour les balises meta de Twitter
+    function updateMetaTags(params) {
+      document.querySelector('meta[name="twitter:title"]').setAttribute("content", params.title);
+      document.querySelector('meta[name="twitter:description"]').setAttribute("content", params.description);
+      document.querySelector('meta[name="twitter:image"]').setAttribute("content", params.image);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = getQueryParams();
+      updateMetaTags(params);
+
+      // Redirection vers Twitter après avoir mis à jour les balises meta
+      const tweetText = encodeURIComponent(params.title + "\n" + params.description);
+      const tweetUrl = encodeURIComponent(window.location.href);
+      const twitterShareUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`;
+      window.location.href = twitterShareUrl;
+    });
+  </script>
 </head>
 <body>
-    <!-- Ton contenu HTML ici -->
 </body>
 </html>
