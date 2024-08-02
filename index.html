@@ -1,26 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Votre titre ici</title>
-    <meta property="og:title" content="Votre titre ici" />
-    <meta property="og:description" content="Description de votre jeu ici." />
-    <meta property="og:image" content="" id="ogImage" />
-    <meta property="og:url" content="" />
-
-    <script>
-        // Ce script ne sera pas pris en compte par Twitter, mais peut être utilisé pour afficher l'image sur votre page.
-        const urlParams = new URLSearchParams(window.location.search);
-        const imageUrl = urlParams.get('image');
-        
-        // Mettre à jour la balise og:image avec l'URL de l'image
-        document.getElementById('ogImage').setAttribute('content', imageUrl);
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@your_twitter_handle">
+  <meta name="twitter:title" content="Discover My NFT Mini-Game">
+  <meta name="twitter:description" content="Check out this cool NFT I discovered!">
+  <meta name="twitter:image" content="LINK_TO_IMGUR_IMAGE">
+  <title>NFT Mini-Game</title>
 </head>
 <body>
-    <h1>Votre jeu</h1>
-    <p>Merci d'avoir joué !</p>
-    <!-- Vous pouvez ajouter d'autres éléments ici pour afficher votre contenu -->
+  <h1>Discover My NFT Mini-Game</h1>
+  <img src="LINK_TO_IMGUR_IMAGE" alt="NFT Image">
 </body>
 </html>
