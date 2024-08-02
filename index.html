@@ -8,8 +8,9 @@
     <meta property="og:description" content="Description de votre jeu ici." />
     <meta property="og:image" content="" id="ogImage" />
     <meta property="og:url" content="" />
+
     <script>
-        // Récupérer l'URL de l'image depuis les paramètres de l'URL
+        // Ce script ne sera pas pris en compte par Twitter, mais peut être utilisé pour afficher l'image sur votre page.
         const urlParams = new URLSearchParams(window.location.search);
         const imageUrl = urlParams.get('image');
         
@@ -17,5 +18,9 @@
         document.getElementById('ogImage').setAttribute('content', imageUrl);
     </script>
 </head>
+<body>
+    <h1>Votre jeu</h1>
+    <p>Merci d'avoir joué !</p>
+    <!-- Vous pouvez ajouter d'autres éléments ici pour afficher votre contenu -->
 </body>
 </html>
