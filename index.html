@@ -30,15 +30,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       const params = getQueryParams();
       updateMetaTags(params);
-
-      // Redirection vers Twitter après avoir mis à jour les balises meta
-      const tweetText = encodeURIComponent(params.title + "\n" + params.description);
-      const tweetUrl = encodeURIComponent(window.location.href);
-      const twitterShareUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`;
-      window.location.href = twitterShareUrl;
     });
   </script>
 </head>
 <body>
 </body>
 </html>
+
