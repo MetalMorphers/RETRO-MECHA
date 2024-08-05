@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@ton_nom_utilisateur_twitter">
-<meta name="twitter:title" content="Découvre mon mini-jeu NFT">
-<meta name="twitter:description" content="Regarde ce NFT cool que j'ai découvert !">
-<meta id="twitter-image" name="twitter:image" content="URL_DE_L_IMAGE">
+  <meta name="twitter:site" content="@your_twitter_handle">
+  <meta name="twitter:title" content="Discover My NFT Mini-Game">
+  <meta name="twitter:description" content="Check out this cool NFT I discovered!">
+  <meta id="twitter-image" name="twitter:image" content="">
   <title>NFT Mini-Game</title>
 </head>
 <body>
   <h1>Discover My NFT Mini-Game</h1>
-  <img src="https://i.imgur.com/dEmvfbv.png" alt="NFT Image">
+  <img id="nft-image" src="" alt="NFT Image">
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageLink = urlParams.get('image');
+    document.getElementById('twitter-image').setAttribute('content', imageLink);
+    document.getElementById('nft-image').src = imageLink;
+  </script>
 </body>
 </html>
