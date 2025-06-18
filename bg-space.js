@@ -59,7 +59,7 @@ window.launchStarfield = function() {
     }
 
     if (warp === 0) {
-      c.fillStyle = "#131313";
+      c.fillStyle = "#13131300";
       c.fillRect(0, 0, canvas.width, canvas.height);
     }
 
