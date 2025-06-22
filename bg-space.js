@@ -43,7 +43,7 @@ window.launchStarfield = function() {
   function moveStars() {
     for (let i = 0; i < numStars; i++) {
       star = stars[i];
-      star.z--;
+      star.z -= 1; // vitesse augmentée
       if (star.z <= 0) {
         star.z = canvas.width;
       }
