@@ -1,0 +1,3247 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NANO MORPHER THE GAME🤖</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+  <link rel="icon" href="favicon_32x32.ico" sizes="32x32" type="image/x-icon">
+</head>
+
+<body>
+  <div id="worm-cursor"></div>
+
+  <div class="canvas-container">
+    <!--<h3 class="text">🔥 ᚠ ᚦ ᚨ 🔥</h3>-->
+    <canvas id="matrix"></canvas>
+    <canvas id="viewport"></canvas>
+    <div class="box">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+  </div>
+  </div>
+  <!-- This is what will be included inside the popup -->
+  <div>
+    <a href="#" onclick="hide('popup')" class="overlay" id="overlay"></a>
+  </div>
+<div class="popup" id="popup">
+
+ 
+    <div class="global-container">
+      <div class="scene intro">
+        <canvas id="bg-space" style="display: none;"></canvas>
+
+      </div>
+    </div>
+
+  <div class="popup-content">
+	<div class="image shine-effect">
+		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAj8AAAI/BAMAAABqgqUEAAAAIVBMVEU3NzdEREQAAAAoKCgvLy8yMjI8PDxsXCWenp6lpaXHx8fx//KzAAAAAnRSTlMAAHaTzTgAAAXpSURBVHhe7MABDQAAAMIg+6e2xwdLAAAAAAAA4OzQoQ0AAAzDsBfa/58dHNgFkxwY6G652yYBCBAgQIB+bECAAAECBAgQIECAAAECBAgQIED2sG8HAgAAAAyD7k99hAmURwsAAAAAAADYPmfPDkoAAGAYBlop9S9yJsZgcJFw3/SmfBuHgAABAgQIECBAgPYDBAgQIECAAAECBAgQIECAAA37dmgEAAwCQZBSMpiUSPtIGkgEM3vy5fqPn+V0a3o9n1gRIECAAAECBAgQIECAAAECBAgQIECAAAECBAjQ2rdPs2+HRADAMBAEvWQ6VVIt9S8h8FlLA/YEBCz9SaV9U6V1vj2OzB8OAQECBAgQIECAAAECBAgQIECAAAECBAgQIECAhn77NPt2SAQACARAsMsLgjAkQdA/AvLNG8Ag9iKsv7itrbIZ2ch6ZKvuYZ46738gQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBCgzb4d2wAAwjAQHIe9GIEm67NApEguoDmPcO3Lcela1e7MWDHQngGqX17RfgEBAgQIECBAgAABAgQIECBAgAABAgQIECBAgAC9evtcdu7YBgAQBALgOm7mKDq2JTTfaGNxlOQJybUkhJd0Y1eFdAOard0GV0hfr3w8HP4PBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECdNi7QxsAABAIYuOx/0ZYDEGAQNRiPqk9wUkXa5JWOUfzzmgGWk/uw+F/IECAAAECBAgQIECAAAECBAgQIECAAAECBAgQoGTnjk0AgEEoCu5m5f4TpRUsUhhMcxOI1354wwpel8jyZwV6vYvdT8ZeJvA/ECBAgAABAgQIECBAgAABAgQIECBAgAABAgQI0GHnjm0AAGEYCC7DJCiTMTltilSmoTiPcO1LjrvYqnE7/rVrQCf+zKt5b+HwfyBAgAABAgQIECBAgAABAgQIECBAgAABAgQIEKDLzh2cAACAIADcf+smCKGCPucCwn0Fb3ax7pIuJwPNKx+HQ0CAAO0DCBAgQIAAAQIECBAgQIAAAQIECBAgQICKfTu1AQAIgQBYDCXQf29Y3GWDumSQK3jGc//2yeNsrRVXP2s3iUfer/wDCBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIEaNihYxMAQBgAYMVTfNXFsx3rIiIIXZITEr+1fnUImmnsQU+ihCBBguoJEiRIkCBBggQJEiRIkCBBggQJEiRIkKDFnh3aAADCABBcARiBEWBjJFMia0hqMCT3sqJJz7ZG5cW49WhHq0fzXv4uG/nu1+eUP4AAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAOe3ZIBQAAwlCwfw1wpCTCFA9zP8DE2Z3+YhPrDJRH6v04BAQI0H+AAAECBAgQIECAAAECBAgQIECAAAECBGjZs0MjAEAYCIK9YCgxJTFDlcgEhWJi9jr4tf/xF6vNyK5tz3a2Ihul7uOwHwgQIECAAAECBAgQIECAAAECBAgQIECAAAECBOiwZ8cmAAAhEAR7FOT778RQM6PHZLYAwUnv6y6W3dt/m0d25ezifDgEBAjQfYAAAQIECBAgQIAAAQIECBAgQIAAAQIEqNizYxMAQAAGgjs4gTiS4P6rWFgaEMHC4n6AFNfmyWPUcuNYz5dWuR/Zq98ch4BWgAABAgQIECBAgAABAgQIECBAgAABAgQIEKDJnp3iAADCUBTkKDjCkbktsiQIBJuZJ2t+MrZXgfaagWqLhnM5/RdbT+b0M0CAAAF6HCBAgAABAgQIECBAgAABAgQIECBAgAB19uyQCAAAhoGYlflXOVg4tCvJCygI7ecvdjed7f5xmAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgJYdOqYBAABgGOTf9UzsakACn6AEAAAAAAAAxp4d2gAAADAI+//rfTBPUous5a8hmQQgQIAAAWpkQIAAAQIECBAgQIAAAQIECBAgQPLagQMaAAAAhEH2T22PD1YAAAAAAADAAWzFg3hpj5HjAAAAAElFTkSuQmCC" alt="Image">
+	  </div>
+	<div id="runes"></div>
+	<div class="parent">
+
+		<div class="beamcard active">
+			<div class="back"></div>
+			<div class="ground"></div>
+			<div class="beam"></div>
+			<div class="debris">
+				<div>
+					<div></div>
+				</div>
+				<div>
+					<div></div>
+				</div>
+				<div>
+					<div></div>
+				</div>
+				<div>
+					<div></div>
+				</div>
+				<div>
+					<div></div>
+				</div>
+				<div>
+					<div></div>
+				</div>
+			</div>
+			<div class="pyro">
+				<div class="before"></div>
+				<div class="after"></div>
+			</div>
+			<div class="card" id="restart">
+				<div class="star"></div>
+			  </div>
+			  
+		</div>
+	
+		
+	</div>
+	
+  </div>
+</div>
+<style>
+  @import 'https://fonts.googleapis.com/css?family=Press+Start+2P';
+
+  * {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'PixelRunes';
+   /*src: url('PixelRunes.woff') format('woff'),
+     url('PixelRunes.ttf') format('truetype');*/
+     /*src: url('https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@main/PixelRunes.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@main/PixelRunes.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@main/PixelRunes.ttf') format('truetype');*/
+       src: url('https://arweave.net/CtsvQRU05esCBK-TSRthCT7NvgGIC_zPdB2Q53D3peA') format('woff2'),
+       url('https://arweave.net/OuX-uOQlZ6fk43NQUWVT0rAoKArVnC24RvLcY5TLSyY') format('woff'),
+       url('https://arweave.net/4XdButVLGJrXFv7d7PEchQqcH_QpVPiATD9U6RWqvpQ') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+      cursor: crosshair;
+      font-family: "Press Start 2P", consolas, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  -webkit-user-select: none; /* Empêche la sélection */
+  user-select: none; /* Empêche la sélection */
+  pointer-events: auto; /* Autorise les événements de clic/touch */
+  text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased; /* Pour Safari et Chrome */
+    -moz-osx-font-smoothing: grayscale; /* Pour Firefox */
+  background: #373737;
+  background-image:
+    radial-gradient(ellipse, #0000 20%, #0004 40%, #000 90%),
+    repeating-linear-gradient(to bottom, transparent 0 25px, #444444a9 25px 26px),
+    repeating-linear-gradient(to right, transparent 0 25px, #444444a9 25px 26px),
+    radial-gradient(ellipse 50vmin 50vmin at 50% 50%, #6c5c2560, transparent);
+  /*-webkit-animation: move 0.0s linear infinite;
+          animation: move 0.0s linear infinite;*/
+    }
+
+    @-webkit-keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 0, -25px -25px, -25px -25px, 0 0, 0 0;
+  }
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 0, -25px -25px, -25px -25px, 0 0, 0 0;
+  }
+}    
+
+#bg-space {
+  position: fixed;
+  top: 0;
+  left: 0;
+  image-rendering: pixelated;
+width:95vmin;
+height:95vmin;
+  z-index: 0; /* fond */
+  pointer-events: none; /* ne bloque pas les clics */
+}
+
+.cursor-segment {
+  position: absolute;
+  background-color: #6c5c25;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
+.cursor-segment.faded {
+  opacity: 0;
+}
+.cursor-segment:first-child {
+  background-color: transparent;
+}
+#worm-cursor {
+  width: 6.45vmin;
+  height: 5.13vmin;
+  font-size: 0.645vmin;
+  position: absolute;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+animation: pulse 1.1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+#worm-cursor::after {
+  z-index: 1;
+  content: '';
+  display: block;
+  position: relative;
+  left: -1em;
+  top: -1em;
+  width: 0.645vmin;
+  height: 0.645vmin;
+  transform: scale(1);
+  backface-visibility: hidden;
+  image-rendering: pixelated;
+  box-shadow:
+    1.935vmin 0.645vmin #19b3b4, 5.16vmin 0.645vmin #19b3b4,
+    0.645vmin 1.29vmin #19b3b4, 2.58vmin 1.29vmin #19b3b4, 4.515vmin 1.29vmin #19b3b4, 6.45vmin 1.29vmin #19b3b4,
+    0.645vmin 1.935vmin #19b3b4, 1.935vmin 1.935vmin #19b3b4, 2.58vmin 1.935vmin #19b3b4, 3.225vmin 1.935vmin #19b3b4,
+    3.87vmin 1.935vmin #19b3b4, 4.515vmin 1.935vmin #19b3b4, 5.16vmin 1.935vmin #19b3b4, 6.45vmin 1.935vmin #19b3b4,
+    0.645vmin 2.58vmin #19b3b4, 1.29vmin 2.58vmin #19b3b4, 1.935vmin 2.58vmin #19b3b4, 3.225vmin 2.58vmin #19b3b4,
+    3.87vmin 2.58vmin #19b3b4, 5.16vmin 2.58vmin #19b3b4, 5.805vmin 2.58vmin #19b3b4, 6.45vmin 2.58vmin #19b3b4,
+    1.29vmin 3.225vmin #19b3b4, 1.935vmin 3.225vmin #19b3b4, 3.225vmin 3.225vmin #19b3b4, 3.87vmin 3.225vmin #19b3b4,
+    5.16vmin 3.225vmin #19b3b4, 5.805vmin 3.225vmin #19b3b4,
+    1.29vmin 3.87vmin #19b3b4, 1.935vmin 3.87vmin #19b3b4, 2.58vmin 3.87vmin #19b3b4, 3.225vmin 3.87vmin #19b3b4,
+    3.87vmin 3.87vmin #19b3b4, 4.515vmin 3.87vmin #19b3b4, 5.16vmin 3.87vmin #19b3b4, 5.805vmin 3.87vmin #19b3b4,
+    1.29vmin 4.515vmin #19b3b4, 2.58vmin 4.515vmin #19b3b4, 4.515vmin 4.515vmin #19b3b4, 5.805vmin 4.515vmin #19b3b4,
+    0.645vmin 5.16vmin #19b3b4, 1.29vmin 5.16vmin #19b3b4, 5.805vmin 5.16vmin #19b3b4, 6.45vmin 5.16vmin #19b3b4;
+}
+#worm-cursor.inactive,
+.cursor-segment.inactive {
+  opacity: 0;
+}
+
+
+.canvas-container {
+  position: fixed; /* Au lieu de relative */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centre parfaitement le conteneur */
+  width: 98vmin; /* Taille plus réduite */
+  height: 98vmin; /* Taille plus réduite */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*background-color: #0a1d74b0;*/
+  will-change: transform; /* optimise l’animation du shake */
+}
+
+@-webkit-keyframes player {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1, 1.03, 1);
+  }
+  60% {
+    transform: scale3d(1.03, 1, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes player {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1, 1.03, 1);
+  }
+  60% {
+    transform: scale3d(1.03, 1, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.box span{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  box-sizing: border-box;  
+  box-shadow: #00000066 0px 2px 10px 0px,
+      #00000080 0px 2px 25px 0px;
+}
+
+.box span:nth-child(1)
+{
+  transform:rotate(0deg);
+}
+
+.box span:nth-child(2)
+{
+  transform:rotate(90deg);
+}
+
+.box span:nth-child(3)
+{
+  transform:rotate(180deg);
+}
+
+.box span:nth-child(4)
+{
+  transform:rotate(270deg);
+}
+
+.box span:before
+{
+  content: '';
+  position: absolute;
+  width:100%;
+  height: 0.15vmin;
+  background: #6c5c25;
+  animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+  transform:scaleX(0);
+  transform-origin: left;
+  }
+  50%
+  {
+    transform:scaleX(1);
+  transform-origin: left;
+  }
+  50.1%
+  {
+    transform:scaleX(1);
+  transform-origin: right;
+    
+  }
+  
+  100%
+  {
+    transform:scaleX(0);
+  transform-origin: right;
+    
+  }
+}
+
+#matrix, #viewport {
+  width: 95vmin; /* Largeur proportionnelle à la taille de la fenêtre */
+  height: 95vmin; /* Hauteur proportionnelle à la taille de la fenêtre */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0%;
+  /*box-shadow: 10px 10px #13131380;*/
+}
+    #matrix {
+      z-index: 1;
+      opacity: 1;
+    }
+
+    #viewport {
+      image-rendering: -webkit-optimize-contrast; /* Pour compatibilité Edge */
+      image-rendering: pixelated; /* Fonctionne bien sur la majorité des navigateurs */
+      z-index: 2;
+      opacity: 0;
+    }
+
+  /* Overlay pour le fond flou */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000000; /* Couleur sombre semi-transparente*/
+    -webkit-backdrop-filter: blur(0px);  /*Effet de flou */
+    backdrop-filter: blur(0px);  /*Effet de flou */
+    z-index: 15; /* Derrière la pop-up */
+    display: none; /* Masqué par défaut */
+
+    touch-action: none; /* Désactive les actions tactiles par défaut */
+    -webkit-user-select: none; /* Empêche la sélection sur mobile */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Supprime la surbrillance au touché */
+
+  }
+
+@keyframes grid-appear-animation {
+  0% {
+    opacity: 0;
+    height: 95vmin;
+    transform: initial;
+  }
+  100% {
+    opacity: 1;
+    transform: matrix3d(1, 0, 0, 0, 0, 1, 0, -0.012, 0, 0, 1, 0, 0, 0, 0, 1);
+  }
+}
+@keyframes grid-background-animation {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 20px;
+  }
+}
+@keyframes stars-animation {
+  from {
+    opacity: 0.3;
+    transform: scale(0.3);
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: scale(10);
+  }
+}
+
+.global-container {
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  width: 95vmin;
+  min-height: 95vmin;
+}
+
+.intro {
+  transition: all 0.2s linear;
+}
+.intro::before {
+  content: "";
+  display: block;
+  width: 95vmin;
+  height: 95vmin;
+  position: absolute;
+  top: 30%;
+  left: 0%;
+  z-index: 3;
+  background-image: repeating-linear-gradient(to top, #6c5c25a9, #6c5c25a9 1px, transparent 1px, transparent 10px), repeating-linear-gradient(90deg, #6c5c25a9, #6c5c25a9 1px, transparent 1px, transparent 50px);
+  animation: grid-appear-animation 4s cubic-bezier(0, 0.5, 0.5, 1), grid-background-animation 1s linear infinite;
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, -0.012, 0, 0, 1, 0, 0, 0, 0, 1);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #131313 60%);
+}
+
+  /* Pop-up par-dessus l'overlay */
+  .popup {
+    background-color: #131313;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95vmin;
+    height: 95vmin;
+    display: none; /* Masqué par défaut */
+    align-items: center;
+    justify-content: center;
+    /*border: 0.1vmin solid #245f35a9;*/
+    z-index: 20; /* Par-dessus l'overlay */
+    /*box-shadow: 0 7px 20px 5px #00000088;*/
+    /*box-shadow: 0 0px 25px 5px #6c5c25;*/
+    box-shadow: 0 0px 0.5vmin 0.5vmin #6c5c25;
+    overflow: hidden; /* Masque les éléments débordants */
+    /*padding: 20px;
+    box-sizing: border-box;*/
+  }
+  
+  /* Contenu de la pop-up centré en colonne */
+  .popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #popup:after {
+    -webkit-backdrop-filter: blur(0px); /* Flou */
+    backdrop-filter: blur(0px); /* Flou */
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #29292900;
+    background-image:
+    radial-gradient(ellipse, #0b0b0b00 20%, #00000000 40%, #131313 100%); /* #0b0b0b 20% */
+      /*radial-gradient(ellipse 55vmin 55vmin at 50% 50%, #6c5c2560, transparent);*/
+    z-index: 2;
+    /*display: none; /* Masqué par défaut */
+  }
+
+  #popup:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #21212100;
+    z-index: -1;
+  }
+
+    /* Image */
+.popup .image img {
+  display: none; /* Masqué par défaut */
+  max-width: 100%;
+  image-rendering: -webkit-optimize-contrast; /* Pour compatibilité Edge */
+  image-rendering: pixelated; /* Fonctionne bien sur la majorité des navigateurs */
+}
+
+/*************************************/
+
+
+/* Conteneur des runes */
+#runes {
+  z-index: 100;
+  font-family: 'PixelRunes', sans-serif;
+  font-size: 14vmin;
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 2s ease-out;
+}
+
+.rune {
+  display: inline-block;
+  position: relative;
+  font-size: 14vmin;
+  margin: 0 0.5vmin;
+  z-index: 1;
+}
+
+.rune-shadow {
+  position: absolute;
+  font-size: 14vmin;
+  font-family: 'PixelRunes', sans-serif;
+  -webkit-text-stroke: 0;
+  color: transparent;
+    text-shadow: 
+      0.8vmin 0.8vmin 0vmin #3a3a3a,
+      1.75vmin 1.75vmin 0vmin #131313;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chrome {
+  background-image: linear-gradient(
+    #000 0%,
+    #131313 20%,
+    #1d1d1d 30%,
+    #3f3f3f 40%,
+    #474747 50%,
+    #585858 55%,
+    #879444 60%,
+    #445938 65%,
+    #879444 70%, 
+    #3a3a3a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -webkit-text-stroke-width: 0.04vmin;
+  -webkit-text-stroke-color: #fdc498;
+  font-family: 'PixelRunes', sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+.shine:after {
+  content: attr(data-text);
+  background-image: linear-gradient(225deg, transparent 53%, #fff 55%, transparent 58%);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-background-clip: text;
+  z-index: 999;
+  background-size: 800% 800%;
+  animation: shine 8s ease infinite;
+  animation-delay: var(--shine-delay, 0s);
+}
+
+@keyframes shine {
+  0% { background-position: 0% 51% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 51% }
+}
+/* Animation d'apparition fade individuelle */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.6s ease-out forwards;
+}
+.rune-shadow.fade-in {
+  animation: fadeIn 1.6s ease-out forwards;
+}
+
+/***********************************************************************/
+
+.parent {
+  z-index: 100;
+  background-color: #00ffc800;
+  display: flex;
+  margin: 0 auto;
+
+ width: 98vmin; /* Largeur proportionnelle à la taille de la fenêtre */
+  /*height: 85vmin; /* Hauteur proportionnelle à la taille de la fenêtre */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.parent:after {
+  /*display: none; /* Masqué par défaut */
+  position: absolute;
+  content: "";
+  width: inherit; 
+}
+
+.beamcard {
+  position: relative;
+  box-sizing: border-box;
+  width: 33%;
+  min-width: 45vmin;
+  height: 75vmin;
+  /*height: 70vh;*/
+  margin: auto;
+}
+
+.beamcard.active {
+  transform: scale3d(1, 1, 1);
+  transform-origin: bottom center;
+  -webkit-animation-name: player;
+          animation-name: player;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.beamcard.active .card {
+  z-index: 10;
+  background-color: #0011ff00;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 33%;
+  width: 50vmin; 
+  height: 50vmin; 
+  border-radius: 0%;
+  opacity: 0;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  -webkit-animation: cardsquash 1s ease-in forwards;
+          animation: cardsquash 1s ease-in forwards;
+  -webkit-animation-delay: 0.472s;
+          animation-delay: 0.472s;
+  background-image: url(https://arweave.net/Srizrh0z6ho5akm3rwZ_Edm7EmrjnprZkVCaleAhX_c);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  /*box-shadow: 3px 3px 5px #0000004d;*/
+  
+  -webkit-user-select: none; /* Empêche la sélection sur WebKit */
+  -webkit-user-drag: none; /* Désactive le glisser sur Chrome/Safari */
+  user-select: none; /* Empêche la sélection sur les navigateurs modernes */
+  touch-action: none; /* Désactive les actions tactiles par défaut */
+  -webkit-tap-highlight-color: transparent; /* Supprime la surbrillance au touché */
+}
+
+
+.beamcard.active .card::after {
+  /* Couches miroir */
+  content: "";
+  position: absolute;
+  top: 88%;
+  width: inherit;
+  height: inherit;
+  opacity: 1; /* Ajuste l'opacité si nécessaire */
+  background: inherit;
+  transform: rotateX(180deg);
+  /*box-shadow: inset 0 45vmin 45vmin -0.15vmin #131313;*/
+  box-shadow: inset 0 33vmin 20vmin -0.15vmin #131313;
+  -webkit-animation: cardmirror 0.278s ease-in forwards;
+          animation: cardmirror 0.278s ease-in forwards;
+  -webkit-animation-delay: 0.722s;
+          animation-delay: 0.722s;
+  pointer-events: none;
+  z-index: 10;
+  /* Application du masque */
+  -webkit-mask-image: url(https://arweave.net/Srizrh0z6ho5akm3rwZ_Edm7EmrjnprZkVCaleAhX_c); /* Met l'URL de ton image ici */
+  mask-image: url(https://arweave.net/Srizrh0z6ho5akm3rwZ_Edm7EmrjnprZkVCaleAhX_c); /* Met l'URL de ton image ici */
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/**********************************MOVESTAR******************************/
+.beamcard.active .card .star {
+  position: absolute;
+  top: 12vmin;
+  right: 12vmin;
+  -webkit-animation: movestar 0.5s linear forwards;
+          animation: movestar 0.5s linear forwards;
+  -webkit-animation-delay: 1.472s;
+          animation-delay: 1.472s;
+}
+.beamcard.active .card .star:before {
+  position: absolute;
+  -webkit-animation: startwinkle 1s linear forwards;
+          animation: startwinkle 1s linear forwards;
+  -webkit-animation-delay: 1.472s;
+          animation-delay: 1.472s;
+  background: linear-gradient(-5deg, #ffffff 2%, #ffffff00 8%) 0 0/50% 50%, linear-gradient(-85deg, #ffffff 2%, #ffffff00 8%) 0 0/50% 50%, linear-gradient(5deg, #ffffff 2%, #ffffff00 8%) 100% 0/50% 50%, linear-gradient(85deg, #ffffff 2%, #ffffff00 8%) 100% 0/50% 50%, linear-gradient(5deg, #ffffff00 92%, #ffffff 98%) 0 100%/50% 50%, linear-gradient(85deg, #ffffff00 92%, #ffffff 98%) 0 100%/50% 50%, linear-gradient(-5deg, #ffffff00 92%, #ffffff 98%) 100% 100%/50% 50%, linear-gradient(-85deg, #ffffff00 92%, #ffffff 98%) 100% 100%/50% 50%;
+  background-repeat: no-repeat;
+  content: "";
+  display: block;
+  width: 6vmin;
+  height: 6vmin;
+  top: -2.9vmin;
+  left: -2.9vmin;
+  transform: rotate(0) scale(0);
+}
+
+
+.beamcard.active .beam {
+  position: absolute;
+  top: -110%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 10vmin;
+  min-height: 110%;
+  background: #ffffff;
+  box-shadow: 2vmin 2vmin 5vmin aqua, -2vmin 2vmin 5vmin aqua;
+  -webkit-animation: firebeam 0.8s ease-in forwards;
+          animation: firebeam 0.8s ease-in forwards;
+          filter: drop-shadow(0 0 4rem var(--labs-sys-color-sun-glow));
+}
+
+.beamcard.active .back {
+  position: absolute;
+  width: 32vmin;
+  height: 32vmin;
+  border-radius: 50%;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  box-shadow: 0 0 3vmin 3vmin #fff, inset 0 0 1px 1px #fff;
+  transform: translatex(-50%);
+  -webkit-animation: backexplosion 0.3s ease-out;
+          animation: backexplosion 0.3s ease-out;
+  -webkit-animation-delay: 0.772s;
+          animation-delay: 0.772s;
+}
+.beamcard.active .ground {
+  position: absolute;
+  bottom: 5.5vmin;
+  left: 50%;
+  transform: translatex(-50%);
+  opacity: 0;
+  background: #ffffff;
+  width: 50vmin;
+  height: 2vmin;
+  border-radius: 50%;
+  box-shadow: 20px 0 10px 2px #fff, -20px 0 10px 2px #fff, inset 0 0 1px 1px #fff;
+  -webkit-animation: groundexplosion 0.7s ease-in forwards;
+          animation: groundexplosion 0.7s ease-in forwards;
+  -webkit-animation-delay: 0.472s;
+          animation-delay: 0.472s;
+          filter: drop-shadow(0 0 4rem var(--labs-sys-color-sun-glow));
+}
+.beamcard.active .pyro > .before, .beamcard.active .pyro > .after {
+  position: absolute;
+  width: 1vmin;
+  height: 1vmin;
+  top: 90%;
+  opacity: 0;
+  margin-left: 50%;
+  border-radius: 0%;
+  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;
+  -webkit-animation: 0.6s pyrobang ease-out forwards, 0.6s pyrogravity ease-in forwards;
+          animation: 0.6s pyrobang ease-out forwards, 0.6s pyrogravity ease-in forwards;
+  -webkit-animation-delay: 0.772s, 0.772s;
+          animation-delay: 0.772s, 0.772s;
+}
+.beamcard.active .pyro > .after {
+  -webkit-animation-duration: 0.4615384615s, 0.4615384615s;
+          animation-duration: 0.4615384615s, 0.4615384615s;
+}
+.beamcard.active .debris {
+  /* Centering */
+  position: absolute;
+  left: 50%;
+  bottom: 3vmin;
+  transform: translate(-50%, 3.5vmin) rotate(180deg) translatex(-1vmin);
+}
+.beamcard.active .debris > div {
+  /* Rotation */
+  position: absolute;
+  transform-origin: center 7vmin;
+}
+.beamcard.active .debris > div div {
+  width: 2vmin;
+  height: 7vmin;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 21%, #ffffffcc 22%, #00ffff99 23%, #00ffff00 60%, #00ffff00 100%);
+  -webkit-animation: debrisexplosion 0.4s ease-out forwards;
+          animation: debrisexplosion 0.4s ease-out forwards;
+  -webkit-animation-delay: 0.772s;
+          animation-delay: 0.772s;
+  -webkit-animation-timing-function: cubic-bezier(0.16, 0.02, 1, 0.59);
+          animation-timing-function: cubic-bezier(0.16, 0.02, 1, 0.59);
+}
+.beamcard.active .debris > div div:before, .beamcard.active .debris > div div:after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  width: inherit;
+  height: inherit;
+}
+.beamcard.active .debris > div div:before {
+  transform: scale(1.4, 0.8) translateY(-110%);
+}
+.beamcard.active .debris > div div:after {
+  transform: scale(1.7, 1) translateY(-160%);
+}
+.beamcard.active .debris > div:nth-child(1) {
+  transform: rotate(115deg);
+}
+.beamcard.active .debris > div:nth-child(2) {
+  transform: rotate(-103deg);
+}
+.beamcard.active .debris > div:nth-child(3) {
+  transform: rotate(-130deg) scale(0.8);
+}
+.beamcard.active .debris > div:nth-child(4) {
+  transform: rotate(135deg) scale(0.8);
+}
+.beamcard.active .debris > div:nth-child(5) {
+  transform: rotate(171deg) scale(1.1);
+}
+.beamcard.active .debris > div:nth-child(5) div {
+  height: 5vmin;
+  width: 3vmin;
+}
+.beamcard.active .debris > div:nth-child(6) {
+  transform: rotate(-170deg) scale(0.8);
+}
+.beamcard.active .debris > div:nth-child(6) div {
+  height: 7vmin;
+  width: 5vmin;
+}
+
+@-webkit-keyframes firebeam {
+  0% {
+    width: 0.1vmin;
+    opacity: 0.5;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 0%);
+  }
+  60% {
+    /* Beam hits ground */
+    opacity: 1;
+    box-shadow: 2vmin 0 6vmin aqua, -2vmin 0 6vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+  70% {
+    width: 10vmin;
+    opacity: 1;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+  100% {
+    width: 1vmin;
+    opacity: 0;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+}
+
+@keyframes firebeam {
+  0% {
+    width: 0.1vmin;
+    opacity: 0.5;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 0%);
+  }
+  60% {
+    /* Beam hits ground */
+    opacity: 1;
+    box-shadow: 2vmin 0 6vmin aqua, -2vmin 0 6vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+  70% {
+    width: 10vmin;
+    opacity: 1;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+  100% {
+    width: 1vmin;
+    opacity: 0;
+    box-shadow: 2vmin 0 2vmin aqua, -2vmin 0 2vmin aqua;
+    transform: translate(-50%, 83%);
+  }
+}
+@-webkit-keyframes groundexplosion {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0px) scaleX(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, 0px) scaleX(1);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 0px) scaleX(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0px) scaleX(0);
+  }
+}
+@keyframes groundexplosion {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0px) scaleX(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, 0px) scaleX(1);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 0px) scaleX(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0px) scaleX(0);
+  }
+}
+@-webkit-keyframes backexplosion {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(-50%, 6vmin) scale(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, 6vmin) scale(1);
+  }
+}
+@keyframes backexplosion {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(-50%, 6vmin) scale(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, 6vmin) scale(1);
+  }
+}
+@-webkit-keyframes debrisexplosion {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20%, 40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -30vmin);
+  }
+}
+@keyframes debrisexplosion {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20%, 40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -30vmin);
+  }
+}
+@-webkit-keyframes cardmirror {
+  0% {
+    opacity: 0;
+    transform: rotateX(180deg) translateY(-7vmin);
+  }
+  100% {
+    opacity: 0.4;
+    transform: rotateX(180deg) translateY(19.4vmin) scaleY(0.3);
+    filter: blur(0px);
+  }
+}
+
+@keyframes cardmirror {
+  0% {
+    opacity: 0;
+    transform: rotateX(180deg) translateY(-7vmin);
+  }
+  100% {
+    opacity: 0.4;
+    transform: rotateX(180deg) translateY(19.4vmin) scaleY(0.3);
+    filter: blur(0px);
+  }
+}
+
+@-webkit-keyframes cardsquash {
+  0% {
+    filter: sepia(100%) hue-rotate(135deg) brightness(300%) saturate(60%);
+    transform: translate(-50%, -300%) scaleX(0.5) scaleY(1.5);
+    opacity: 0;
+  }
+  11% {
+    transform: translate(-50%, -197%) scaleX(0.41) scaleY(1.59);
+    opacity: 0.1;
+  }
+  30% {
+    transform: translate(-50%, -18%) scaleX(0.25) scaleY(1.75);
+    opacity: 1;
+  }
+  35% {
+    transform: translate(-50%, -2%) scaleX(1.7) scaleY(0.3);
+  }
+  46% {
+    transform: translate(-50%, 2%) scaleX(1.8) scaleY(0.2);
+    filter: none;
+  }
+  54% {
+    transform: translate(-50%, 2%) scaleX(0.8) scaleY(1.2);
+  }
+  66% {
+    transform: translate(-50%, 0%) scaleX(1.2) scaleY(0.8);
+  }
+  78% {
+    transform: translate(-50%, 0%) scaleX(0.95) scaleY(1.05);
+  }
+  100% {
+    transform: translate(-50%, 0%) scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
+@keyframes cardsquash {
+  0% {
+    filter: sepia(100%) hue-rotate(135deg) brightness(300%) saturate(60%);
+    transform: translate(-50%, -300%) scaleX(0.5) scaleY(1.5);
+    opacity: 0;
+  }
+  11% {
+    transform: translate(-50%, -197%) scaleX(0.41) scaleY(1.59);
+    opacity: 0.1;
+  }
+  30% {
+    transform: translate(-50%, -18%) scaleX(0.25) scaleY(1.75);
+    opacity: 1;
+  }
+  35% {
+    transform: translate(-50%, -2%) scaleX(1.7) scaleY(0.3);
+  }
+  46% {
+    transform: translate(-50%, 2%) scaleX(1.8) scaleY(0.2);
+    filter: none;
+  }
+  54% {
+    transform: translate(-50%, 2%) scaleX(0.8) scaleY(1.2);
+  }
+  66% {
+    transform: translate(-50%, 0%) scaleX(1.2) scaleY(0.8);
+  }
+  78% {
+    transform: translate(-50%, 0%) scaleX(0.95) scaleY(1.05);
+  }
+  100% {
+    transform: translate(-50%, 0%) scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes pyrobang {
+    100% {
+      box-shadow: 
+        197px -358px #ff6b00, 
+        195px -35px #ff3d00, 
+        -68px -328px #ff9b00, 
+        163px 14px #ffaa00, 
+        -12px -219px #ffd400, 
+        -47px -288px #ffed00, 
+        201px 26px #ffd900, 
+        114px -40px #ffa600, 
+        26px -98px #ff9200, 
+        110px -194px #ff7200, 
+        46px -142px #ff4500, 
+        161px -192px #ff5500, 
+        -112px -234px #ffaa00, 
+        76px -1px #ffa000, 
+        -169px -3px #ff4500, 
+        52px -363px #ff6b00, 
+        -126px 68px #ff3d00, 
+        179px 31px #ff1c00, 
+        -140px 25px #d46f00, 
+        -183px 15px #a33600, 
+        -164px -343px #ff5500, 
+        4px -153px #ff2a00, 
+        220px -134px #ffa000, 
+        -242px -1px #d47f00, 
+        -248px -286px #a30000, 
+        -162px -15px #ff4500, 
+        -195px -170px #ff6b00, 
+        10px -285px #8c4e00, 
+        25px -200px #d45f00, 
+        237px 5px #ffd400, 
+        57px -134px #d49f00, 
+        69px -66px #ff8400, 
+        241px -394px #ffaa00, 
+        81px -76px #d46000, 
+        -143px -391px #ffb100, 
+        -135px -275px #ff7700, 
+        -196px -124px #ff5500, 
+        -137px -127px #ff3d00, 
+        135px -147px #ff7000, 
+        104px -90px #ffa600, 
+        -86px -245px #ff9500, 
+        -233px -378px #d47f00, 
+        26px -36px #ff5500, 
+        64px -384px #8c4e00, 
+        146px 52px #d43000, 
+        -171px -197px #b12c00, 
+        159px -337px #ff8400, 
+        -11px -327px #b14e00, 
+        202px 13px #ffa600, 
+        -127px -356px #d45f00, 
+        -156px -42px #d45f00;
+    }
+  }
+  @keyframes pyrobang {
+    100% {
+      box-shadow: 
+        19.7vmin -35.8vmin #ff6b00, 
+        19.5vmin -3.5vmin #ff3d00, 
+        -6.8vmin -32.8vmin #ff9b00, 
+        16.3vmin 1.4vmin #ffaa00, 
+        -1.2vmin -21.9vmin #ffd400, 
+        -4.7vmin -28.8vmin #ffed00, 
+        20.1vmin 2.6vmin #ffd900, 
+        11.4vmin -4.0vmin #ffa600, 
+        2.6vmin -9.8vmin #ff9200, 
+        11.0vmin -19.4vmin #ff7200, 
+        4.6vmin -14.2vmin #ff4500, 
+        16.1vmin -19.2vmin #ff5500, 
+        -11.2vmin -23.4vmin #ffaa00, 
+        7.6vmin -0.1vmin #ffa000, 
+        -16.9vmin -0.3vmin #ff4500, 
+        5.2vmin -36.3vmin #ff6b00, 
+        -12.6vmin 6.8vmin #ff3d00, 
+        17.9vmin 3.1vmin #ff1c00, 
+        -14.0vmin 2.5vmin #d46f00, 
+        -18.3vmin 1.5vmin #a33600, 
+        -16.4vmin -34.3vmin #ff5500, 
+        0.4vmin -15.3vmin #ff2a00, 
+        22.0vmin -13.4vmin #ffa000, 
+        -24.2vmin -0.1vmin #d47f00, 
+        -24.8vmin -28.6vmin #a30000, 
+        -16.2vmin -1.5vmin #ff4500, 
+        -19.5vmin -17.0vmin #ff6b00, 
+        1.0vmin -28.5vmin #8c4e00, 
+        2.5vmin -20.0vmin #d45f00, 
+        23.7vmin 0.5vmin #ffd400, 
+        5.7vmin -13.4vmin #d49f00, 
+        6.9vmin -6.6vmin #ff8400, 
+        24.1vmin -39.4vmin #ffaa00, 
+        8.1vmin -7.6vmin #d46000, 
+        -14.3vmin -39.1vmin #ffb100, 
+        -13.5vmin -27.5vmin #ff7700, 
+        -19.6vmin -12.4vmin #ff5500, 
+        -13.7vmin -12.7vmin #ff3d00, 
+        13.5vmin -14.7vmin #ff7000, 
+        10.4vmin -9.0vmin #ffa600, 
+        -8.6vmin -24.5vmin #ff9500, 
+        -23.3vmin -37.8vmin #d47f00, 
+        2.6vmin -3.6vmin #ff5500, 
+        6.4vmin -38.4vmin #8c4e00, 
+        14.6vmin 5.2vmin #d43000, 
+        -17.1vmin -19.7vmin #b12c00, 
+        15.9vmin -33.7vmin #ff8400, 
+        -1.1vmin -32.7vmin #b14e00, 
+        20.2vmin 1.3vmin #ffa600, 
+        -12.7vmin -35.6vmin #d45f00, 
+        -15.6vmin -4.2vmin #d45f00;
+    }
+  }
+  
+
+@-webkit-keyframes pyrogravity {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(25vmin);
+    opacity: 0;
+  }
+}
+@keyframes pyrogravity {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(25vmin);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes movestar {
+  0% {
+    transform: translateX(-5vmin);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@keyframes movestar {
+  0% {
+    transform: translateX(-5vmin);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@-webkit-keyframes startwinkle {
+  0% {
+    transform: rotate(0) scale(0);
+  }
+  40% {
+    transform: rotate(144deg) scale(1);
+  }
+  100% {
+    transform: rotate(360deg) scale(0);
+  }
+}
+@keyframes startwinkle {
+  0% {
+    transform: rotate(0) scale(0);
+  }
+  40% {
+    transform: rotate(144deg) scale(1);
+  }
+  100% {
+    transform: rotate(360deg) scale(0);
+  }
+}
+
+</style>
+<!-- partial -->
+<!--
+<script src='https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@main/p5.min.js'></script>
+<script src='https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@main/pixi.min.js'></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/p5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pixi.js/3.0.11/pixi.min.js'></script>
+-->
+<script src='https://arweave.net/4zl9I69C-dl8xQ485xZOkTjgaO6u0VDilSHmla80wgE'></script>
+<script src='https://arweave.net/fhQkVUPphB-QTl2XYkxEIpgg6YvzO2NHcsE82ZBKcw8'></script>
+<script src='https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@refs/heads/main/bg-space.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<script>
+const script = document.createElement("script");
+script.src = "https://cdn.jsdelivr.net/gh/MetalMorphers/RETRO-MECHA@refs/heads/main/bg-space.js";
+script.defer = true;
+document.body.appendChild(script);
+
+// tu peux ensuite appeler :
+script.onload = () => {
+  launchStarfield(); // cette fonction doit être déclarée dans bg-space.js
+};
+
+ /////////////////////////// overlay & popup ///////////////////////////
+
+ $ = function(id) {
+  return document.getElementById(id);
+}
+
+// Fonction pour afficher le popup et démarrer les animations
+var show = function(id) {
+  $(id).style.display = 'block';
+  document.getElementById('overlay').style.display = 'block'; // Affiche l'overlay
+
+  // Réinitialise l'opacité pour un fondu progressif
+  setTimeout(() => {
+    runes.style.opacity = "1";
+  }, 1500);
+
+  // Initialiser et déclencher l'animation lumineuse séquentielle
+  const initialDelay = 2000;
+}
+// Fonction pour cacher le popup et arrêter les animations
+var hide = function(id) {
+  $(id).style.display = 'none';
+  document.getElementById('overlay').style.display = 'none'; // Masque l'overlay
+
+  // Réinitialise l'opacité et retire l'effet lumineux des runes
+  runes.style.opacity = "0";
+  document.querySelectorAll("#runes p1").forEach((element) => {
+    element.classList.remove("glow-effect");
+  });
+
+  // Annule tous les timeouts pour arrêter l'animation des runes
+  animationTimeouts.forEach(clearTimeout);
+  animationTimeouts = [];
+}
+/////////////////////////// Runes Animation ///////////////////////////
+let runes = document.getElementById("runes");
+let splitUp = "0 3 H".split("");
+
+splitUp.forEach((rune, index) => {
+// Ombre derrière
+let shadow = document.createElement("span");
+shadow.classList.add("rune-shadow", "fade-in");
+shadow.innerText = rune;
+shadow.style.animationDelay = `${index * 0.7}s`; // même délai que la rune
+runes.appendChild(shadow);
+
+
+  // Rune principale avec effet chrome + fade + shine
+  let element = document.createElement("span");
+  element.classList.add("rune", "chrome", "shine", "fade-in");
+  element.setAttribute("data-text", rune);
+  element.innerText = rune;
+
+  // 💡 Appliquer un délai unique pour chaque lettre
+   // 🕐 Délai de fade-in
+   element.style.animationDelay = `${index * 0.8}s`;
+
+// 🌟 Délai de shine
+element.style.setProperty('--shine-delay', `${index * 0}s`);
+
+runes.appendChild(element);
+});
+
+/*
+JavaScript is only used for triggering the animation.
+*/
+(function() {
+	var button = document.querySelector("#restart");
+	var count = 0;
+
+	var restartHandler = function(e) {
+		var beamcards = document.querySelectorAll(".beamcard");
+		count++;
+		if (count >= beamcards.length) {
+			count = 0;
+			beamcards.forEach(el =>
+				window.setTimeout(function() {
+					el.classList.remove("active");
+				}, 1)
+			);
+		}
+		var beamcard = beamcards[count];
+		beamcard.classList.remove("active");
+		window.setTimeout(function() {
+			beamcard.classList.add("active");
+		}, 50);
+	};
+	button.addEventListener("click", restartHandler);
+})();
+/////////////////////////////
+// Ajoutez l'événement touchstart uniquement aux runes
+runes.addEventListener("touchstart", (event) => {
+    event.preventDefault(); // Empêche la sélection lors d'un maintien uniquement pour les runes
+}, { passive: false }); // `passive: false` est nécessaire pour que `preventDefault` fonctionne
+//////////////////////////////
+
+const IMAGE_BASE64 = "https://arweave.net/Q6B1H7_HFI6CjP9EaEG07JK4-5DTIBHrfoQZKCOqLPQ";
+const offsetX = 0; // Décalage horizontal
+//const offsetY = 0; // Décalage vertical
+const offsetY = -64; // Décalage vertical
+const PARTICLE_SIZE = 23; // taille en pixels de l'image
+const canvasWidth = viewport.clientWidth; // Remplacez par la largeur réelle de votre canvas
+const canvasHeight = viewport.clientHeight; // Remplacez par la hauteur réelle de votre canvas
+const DEFAULT_REPULSION_CHANGE_DISTANCE = Math.min(canvasWidth, canvasHeight) * 0.125; // Exemple de calcul basé sur la taille du canvas
+const CLICK_TIMEOUT = 50; // 300ms de temporisation entre les interactions
+//let touchX = 0;
+//let touchY = 0;
+let canInteract = true;
+let repulsionChangeDistance = DEFAULT_REPULSION_CHANGE_DISTANCE;
+let pointSystem = null;
+let targetImage = null;
+let isTouching = false;
+let isMouseDown = false;
+
+// ==================================================
+// ImageParticle Class
+// ==================================================
+class ImageParticle {
+  constructor(originPosition, originScale, originColor) {
+    this.position = originPosition.copy();
+    this.originPosition = originPosition.copy();
+    this.velocity = createVector(random(0, 50), random(0, 50));
+    this.repulsion = random(1.0, 5.0);
+    this.mouseRepulsion = 1.0;
+    this.gravity = 0.01;
+    this.maxGravity = random(0.01, 0.04);
+    this.scale = originScale;
+    this.originScale = originScale;
+    this.color = originColor;
+    this.originColor = [...originColor];  
+    this.isInteracting = false;  
+    this.sprite = null;
+  }
+
+  createSprite(texture) {
+    this.sprite = new PIXI.Sprite(texture);
+    this.sprite.tint = (this.color[0] << 16) + (this.color[1] << 8) + (this.color[2]);
+    return this.sprite;
+  }
+
+  updateState() {
+    this._updateStateByMouse();
+    this._updateStateByOrigin();
+    this.velocity.mult(0.95);
+    this.position.add(this.velocity);
+    this.sprite.position.x = this.position.x;
+    this.sprite.position.y = this.position.y;
+    this.sprite.scale.x = this.sprite.scale.y = this.scale;
+  }
+
+  _updateStateByMouse() {
+  if (!isMouseDown && !isTouching) {
+    this.isInteracting = false;
+    return;
+  }
+
+  let distanceX, distanceY, distance;
+
+  // Obtenir la position réelle du worm-cursor
+  const worm = document.getElementById("worm-cursor");
+  const wormRect = worm.getBoundingClientRect();
+  const canvasRect = document.getElementById("viewport").getBoundingClientRect();
+
+  const wormX = wormRect.left + wormRect.width / 2 - canvasRect.left;
+  const wormY = wormRect.top + wormRect.height / 2 - canvasRect.top;
+
+  distanceX = wormX - this.position.x;
+  distanceY = wormY - this.position.y;
+
+  distance = mag(distanceX, distanceY);
+  const pointCos = distanceX / distance;
+  const pointSin = distanceY / distance;
+
+  if (distance < repulsionChangeDistance) {
+    this.gravity *= 0.6;
+    this.mouseRepulsion = max(0, this.mouseRepulsion * 0.5 - 0.01);
+    this.velocity.sub(pointCos * this.repulsion, pointSin * this.repulsion);
+    this.velocity.mult(1 - this.mouseRepulsion);
+
+    this.isInteracting = true;
+
+    const grayValue = (this.originColor[0] * 0.299 + this.originColor[1] * 0.587 + this.originColor[2] * 0.114);
+    this.color = [grayValue, grayValue, grayValue];
+  } else {
+    this.gravity += (this.maxGravity - this.gravity) * 0.1;
+    this.mouseRepulsion = min(1, this.mouseRepulsion + 0.03);
+    this.isInteracting = false;
+  }
+
+  this.sprite.tint = (this.color[0] << 16) + (this.color[1] << 8) + (this.color[2]);
+}
+
+
+  _updateStateByOrigin() {
+    const distanceX = this.originPosition.x - this.position.x;
+    const distanceY = this.originPosition.y - this.position.y;
+    const distance = mag(distanceX, distanceY);
+    this.velocity.add(distanceX * this.gravity, distanceY * this.gravity);
+    this.scale = this.originScale + this.originScale * distance / 512;
+
+    if (!this.isInteracting) {
+      this.color[0] += (this.originColor[0] - this.color[0]) * 0.1;
+      this.color[1] += (this.originColor[1] - this.color[1]) * 0.1;
+      this.color[2] += (this.originColor[2] - this.color[2]) * 0.1;
+
+      this.sprite.tint = (this.color[0] << 16) + (this.color[1] << 8) + (this.color[2]);
+    }
+  }
+
+  returnToOrigin() {
+    const distanceX = this.originPosition.x - this.position.x;
+    const distanceY = this.originPosition.y - this.position.y;
+    this.velocity.add(distanceX * 0.1, distanceY * 0.1);
+  }
+}
+
+class ImageParticleSystem {
+  constructor() {
+    this.points = [];
+    this.pointSprites = [];
+    const viewport = document.getElementById("viewport");
+    this.renderer = PIXI.autoDetectRenderer(viewport.clientWidth, viewport.clientHeight, {
+      view: viewport,
+      transparent: true 
+    });
+    this.stage = new PIXI.Container();
+    this.container = new PIXI.Container();
+    this._createParticles();
+    this._setup();
+  }
+
+  _setup() {
+    this.stage.addChild(this.container);
+    document.body.appendChild(this.renderer.view);
+  }
+
+_getPixel(x, y) {
+  const pixels = targetImage.pixels;
+  const idx = (y * targetImage.width + x) * 4;
+  if (x > targetImage.width || x < 0 || y > targetImage.height || y < 0) {
+  return [0, 0, 0, 0];
+}
+  return [
+      pixels[idx + 0],
+      pixels[idx + 1],
+      pixels[idx + 2],
+      pixels[idx + 3]
+    ];
+}
+
+  _createParticleTexture() {
+    const graphics = new PIXI.Graphics();
+    graphics.lineStyle(0);
+    graphics.beginFill(0xFFFFFF);
+    graphics.drawRect(0, 0, PARTICLE_SIZE, PARTICLE_SIZE);
+    return graphics.generateTexture();
+  }
+
+  _createParticles() {
+    const imageWidth = targetImage.width;
+    const imageHeight = targetImage.height;
+    const viewport = document.getElementById("viewport");
+    const viewportWidth = viewport.clientWidth;
+    const viewportHeight = viewport.clientHeight;
+    const imageScale = Math.min(viewportWidth / imageWidth, viewportHeight / imageHeight);
+    const texture = this._createParticleTexture();
+    const fractionSizeX = Math.ceil(imageWidth / PARTICLE_SIZE);
+    const fractionSizeY = Math.ceil(imageHeight / PARTICLE_SIZE);
+
+    const offsetX = (viewportWidth - (imageWidth * imageScale)) / 2;
+    const offsetY = (viewportHeight - (imageHeight * imageScale)) / 2;
+
+    for (let i = 0; i < fractionSizeX; i++) {
+      for (let j = 0; j < fractionSizeY; j++) {
+        const imagePosition = createVector(i * PARTICLE_SIZE, j * PARTICLE_SIZE);
+        let originColor = this._getPixel(imagePosition.x, imagePosition.y);
+        if (originColor[3] === 0) {
+          continue;
+        }
+        let originPosition = imagePosition.copy().mult(imageScale).add(offsetX, offsetY);
+        let originScale = imageScale;
+        let point = new ImageParticle(originPosition, originScale, originColor);
+        this.points.push(point);
+        this.container.addChild(point.createSprite(texture));
+      }
+    }
+
+    console.log("particle count: %s", this.points.length);
+  }
+
+  updateState() {
+    const mousePosition = this.renderer.plugins.interaction.mouse.global;
+    mouseX = mousePosition.x;
+    mouseY = mousePosition.y;
+    for (let point of this.points) {
+      point.updateState();
+    }
+
+    if (!isMouseDown && !isTouching) {
+      for (let point of this.points) {
+        point.returnToOrigin();
+      }
+    }
+  }
+
+  render() {
+    this.renderer.render(this.stage);
+  }
+}
+
+function preload() {
+  targetImage = loadImage(IMAGE_BASE64);
+}
+
+function setup() {
+  targetImage.loadPixels();
+  noStroke();
+  frameRate(60);
+  pointSystem = new ImageParticleSystem();
+  setupEvents();
+}
+///////////////////////son et interaction/////////////////////////
+function draw() {
+    repulsionChangeDistance = Math.max(0, repulsionChangeDistance - 1.5);
+    pointSystem.updateState();
+    pointSystem.render();
+}
+
+function setupEvents() {
+    const canvasViewport = document.getElementById('viewport');
+
+    // Variables partagées
+    let lastSoundTime = 0;
+    let lastSoundPosition = { x: 0, y: 0 };
+    const minInterval = 250; // Intervalle minimum entre deux sons
+    const minDistance = Math.min(canvasViewport.width, canvasViewport.height) * 0.16;
+
+    function playSound(index) {
+        zzfx(...sounds[index]);
+        lastSoundTime = Date.now();
+    }
+
+    function triggerSoundWithDistance(index, x, y) {
+        const currentTime = Date.now();
+        const timeElapsed = currentTime - lastSoundTime;
+        const distance = Math.sqrt(Math.pow(x - lastSoundPosition.x, 2) + Math.pow(y - lastSoundPosition.y, 2));
+
+        if (timeElapsed >= minInterval && distance >= minDistance) {
+            playSound(index);
+            lastSoundPosition = { x, y };
+        }
+    }
+
+    function startInteraction(x, y) {
+  const worm = document.getElementById("worm-cursor");
+  worm.style.left = `${x}px`;
+  worm.style.top = `${y}px`;
+  repulsionChangeDistance = DEFAULT_REPULSION_CHANGE_DISTANCE;
+}
+
+    function handleInteractionEnd() {
+        isMouseDown = false;
+        isTouching = false;
+        repulsionChangeDistance = 0;
+    }
+
+    // Vérifie si les coordonnées sont en dehors du canvas
+    function isOutsideCanvas(x, y) {
+        const rect = canvasViewport.getBoundingClientRect();
+        return x < 0 || y < 0 || x > rect.width || y > rect.height;
+    }
+
+    function handleMouseMove(e) {
+        const rect = canvasViewport.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        if (isMouseDown) {
+            startInteraction(mouseX, mouseY);
+            triggerSoundWithDistance(3, mouseX, mouseY); // Son déclenché lors d'un clic ou d'une interaction active
+        }
+    }
+
+    function handleTouchMove(e) {
+  e.preventDefault();
+
+  const touch = e.touches[0];
+  const { x, y } = getRelativeTouchCoordinates(touch);
+
+  // Réinitialise si en dehors des limites du canvas
+  if (isOutsideCanvas(x, y)) {
+    handleInteractionEnd();
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleInteractionEnd);
+    return;
+  }
+
+  if (isTouching) {
+    // Déplace directement le worm à la position du doigt
+    const worm = document.getElementById("worm-cursor");
+    worm.style.left = `${x}px`;
+    worm.style.top = `${y}px`;
+
+    repulsionChangeDistance = DEFAULT_REPULSION_CHANGE_DISTANCE;
+    triggerSoundWithDistance(3, x, y); // Son déclenché lors d'une interaction tactile active
+  }
+}
+
+
+    const onMouseDown = (e) => {
+        if (e.button === 0) {
+            isMouseDown = true;
+            const rect = canvasViewport.getBoundingClientRect();
+            startInteraction(e.clientX - rect.left, e.clientY - rect.top);
+        }
+    };
+
+    const onTouchStart = (e) => {
+        const touch = e.touches[0];
+        const { x, y } = getRelativeTouchCoordinates(touch);
+
+        isTouching = true;
+        startInteraction(x, y);
+
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', handleInteractionEnd);
+    };
+
+    // Gestion des événements pour les appareils tactiles
+    canvasViewport.addEventListener('touchstart', onTouchStart);
+    canvasViewport.addEventListener('touchmove', handleTouchMove);
+    canvasViewport.addEventListener('touchend', handleInteractionEnd);
+    canvasViewport.addEventListener('touchcancel', handleInteractionEnd);
+
+    // Gestion des événements pour les appareils utilisant une souris
+    canvasViewport.addEventListener('mousedown', onMouseDown);
+    canvasViewport.addEventListener('mousemove', handleMouseMove);
+    canvasViewport.addEventListener('mouseup', handleInteractionEnd);
+    canvasViewport.addEventListener('mouseleave', handleInteractionEnd);
+
+    // Fonction pour obtenir les coordonnées relatives
+    function getRelativeTouchCoordinates(touch) {
+        const rect = canvasViewport.getBoundingClientRect();
+        const scaleX = canvasViewport.width / rect.width;
+        const scaleY = canvasViewport.height / rect.height;
+        return {
+            x: (touch.clientX - rect.left) * scaleX,
+            y: (touch.clientY - rect.top) * scaleY,
+        };
+    }
+}
+//////////////////////fin son et interaction///////////////////////
+//////////////////////matrix///////////////////////
+class Symbol {
+  constructor(x, y, fontSize, canvasHeight, fontStyle, characters, selectedCharacters) {
+    this.characters = characters;
+    this.x = x;
+    this.y = y;
+    this.fontSize = fontSize;
+    this.text = "";
+    this.canvasHeight = canvasHeight;
+    this.fontStyle = fontStyle;
+    this.selectedCharacters = new Set(selectedCharacters.split(' '));
+    this.isSelected = false;
+    this.isHovered = false;
+    this.isRemoved = false;
+    this.lastTextChange = Date.now();
+  }
+  
+  draw(context, removedSymbols, hoverCounts, hoveredCoordinates) {
+    context.font = `${this.fontSize}px '${this.fontStyle}'`;
+    context.textAlign = "center";
+
+    if (!this.isRemoved) {
+  // ⏱️ Ne changer le texte que toutes les 500ms pour donner au joueur le temps de lire
+  if (!this.lastTextChange || Date.now() - this.lastTextChange > 30) {
+    this.text = this.characters.charAt(Math.floor(Math.random() * this.characters.length));
+    this.lastTextChange = Date.now(); // Enregistrer le moment du changement
+  }
+
+  // 🧿 Vérifie si ce symbole est un des 3 à survoler (0, 3 ou H)
+  this.isSelected = this.selectedCharacters.has(this.text);
+
+
+      if (this.isSelected && this.isHovered) {
+        const hoverCount = hoverCounts[this.text] || 0;
+        if (hoverCount === 0) {
+          context.fillStyle = "#6c5c25";
+          context.shadowColor = "#6c5c25";
+          context.shadowBlur = 0;
+        } else {
+          context.fillStyle = "#444444"; // Change to dark gray on 2nd hover and beyond
+          context.shadowColor = "#444444";
+          context.shadowBlur = 10;
+        }
+        this.removeCharacter(this.text, removedSymbols, hoverCounts, hoveredCoordinates);
+        this.isRemoved = true;
+      } else if (!this.isSelected) {
+        context.fillStyle = "#ffffff";
+        context.shadowColor = "transparent";
+        context.shadowBlur = 0;
+      }
+
+      const centerX = this.x * this.fontSize + this.fontSize / 2;
+      const centerY = this.y * this.fontSize;
+      context.fillText(this.text, centerX, centerY);
+    }
+
+    if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.97) {
+      this.y = 0;
+    } else {
+      this.y += 1.6;
+    }
+  }
+  updateHover(mouseX, mouseY) {
+    //const marginFactor = 0.15; // Ajuster ce facteur pour réduire la marge autour du symbole
+    const marginFactor = 0.65; // Ajuster le facteur a 0.3 pour réduire la marge autour du symbole
+    const margin = this.fontSize * marginFactor;
+
+    const symbolX = this.x * this.fontSize + this.fontSize / 2;
+    const symbolY = this.y * this.fontSize;
+
+    // Vérifie si la position de la souris se trouve dans une zone autour du symbole
+    this.isHovered = mouseX >= symbolX - this.fontSize / 2 - margin &&
+                     mouseX < symbolX + this.fontSize / 2 + margin &&
+                     mouseY >= symbolY - this.fontSize / 2 - margin &&
+                     mouseY < symbolY + this.fontSize / 2 + margin;
+}
+
+
+removeCharacter(char, removedSymbols, hoverCounts, hoveredCoordinates) {
+  hoverCounts[char] = (hoverCounts[char] || 0) + 1;
+
+  if (hoverCounts[char] === 1) {
+    this.characters = this.characters.replace(char, '').trim();
+    this.selectedCharacters.delete(char);
+    removedSymbols.add(char);
+    hoveredCoordinates.set(char, { x: this.x, y: this.y });
+
+    console.log(`Removed character: ${char}`); // Log du caractère retiré
+
+    if (matrix.effect.verifyHoverOrder()) {
+      playRandomSound();
+    }
+  }
+}
+}
+
+
+function base64ToBlob(base64, mime) {
+  const byteChars = atob(base64.split(',')[1]);
+  const byteNumbers = new Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) {
+    byteNumbers[i] = byteChars.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: mime });
+}
+
+
+class Effect {
+  constructor(canvasWidth, canvasHeight, fontStyle) {
+    this.fontSize = calculateFontSize(7, canvasWidth, canvasHeight);
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+    this.columns = Math.floor(this.canvasWidth / this.fontSize);
+    this.fontStyle = fontStyle;
+
+    this.characters = "0 M Y Q X A J D L W O K B S 2 F H G Z R P N I T E C V U 3"; //liste qui contient 29 symboles runiques
+    //this.characters = "0 F H G Z R P N I T E C V U 3"; //liste qui contient 29 symboles runiques
+    this.selectedCharacters = "0 3 H";
+
+    this.removedSymbols = new Set();
+    this.hoverCounts = {};
+    this.hoveredCoordinates = new Map();
+    this.symbols = this.initialize();
+
+    this.currentSymbolIndex = 2;
+    this.opacity = 0;
+    this.fadeDirection = 1;
+    this.symbolChangeInterval = 60;
+    this.startSymbolChange();
+
+    this.descriptions = {
+  'MESSAGE': '[FINAL FORM ACTIVATED]\nCLICK ABOVE TO UNLEASH THE\nFULL POWER OF YOUR MECH!'
+};
+
+   /////// Récupérer l'image HTML
+    this.loadedImage = document.querySelector('.popup .image img');
+    this.imageLoaded = !!this.loadedImage; // Vérifie si l'image est bien chargée
+
+//////////////////////////////////
+    this.imageTitle = "[NANO MORPHER AWAKENED]";
+    this.imageCode = "☄️ 0 3 H ☄️";
+
+  ////////////////////////
+
+    // Ajout de la gestion des erreurs
+    this.errorCount = 0;
+    this.maxErrors = 3;
+    this.maxErrorsBeforeReset = 2; // Nombre d'erreurs avant réinitialisation complète
+    this.lastCorrectIndex = -1; // Index du dernier symbole correct dans la séquence
+
+    this.eventAdded = false; // Nouvelle propriété pour suivre l'état de l'événement de clic
+  
+// Variable pour contrôler l'état de visibilité du texte
+this.isTextVisible = true;
+
+// Définir un intervalle pour alterner la visibilité du texte toutes les 1500 ms
+setInterval(() => {
+  this.isTextVisible = !this.isTextVisible;
+}, 1500);
+  }
+
+  initialize() {
+    const symbols = [];
+    for (let i = 0; i < this.columns; i++) {
+      symbols[i] = new Symbol(i, 0, this.fontSize, this.canvasHeight, this.fontStyle, this.characters, this.selectedCharacters);
+    }
+    return symbols;
+  }
+
+  startSymbolChange() {
+    setInterval(() => {
+      this.opacity += 0.05 * this.fadeDirection;
+      if (this.opacity >= 1) {
+        this.fadeDirection = -1;
+        this.opacity = 1;
+      } else if (this.opacity <= 0) {
+        this.fadeDirection = 1;
+        this.opacity = 0;
+        this.currentSymbolIndex = (this.currentSymbolIndex + 1) % this.characters.length;
+      }
+    }, this.symbolChangeInterval);
+  }
+
+  resize(width, height) {
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+    this.fontSize = calculateFontSize(7, this.canvasWidth, this.canvasHeight);
+    this.columns = Math.floor(this.canvasWidth / this.fontSize);
+    this.symbols = this.initialize();
+  }
+
+  resetHoverState() {
+    this.removedSymbols.clear();
+    this.hoverCounts = {};
+    this.hoveredCoordinates.clear();
+    this.errorCount = 0; // Réinitialiser le compteur d'erreurs
+    this.lastCorrectIndex = -1; // Réinitialiser l'index du dernier symbole correct
+    console.log("Hover state has been reset."); // Log de la réinitialisation de l'état
+  }
+
+  updateHover(mouseX, mouseY) {
+    if (Date.now() - matrix.gameStartTime < matrix.hoverDelay) {
+      return;
+    }
+
+    this.symbols.forEach(symbol => {
+      const isHovered = symbol.updateHover(mouseX, mouseY);
+      if (isHovered) {
+        console.log(`Hovering over symbol: ${symbol.text}`); // Log du symbole survolé
+        if (!this.hoverCounts[symbol.text]) {
+          this.hoverCounts[symbol.text] = 0;
+        }
+        if (this.hoverCounts[symbol.text] < 2) {
+          this.hoverCounts[symbol.text]++;
+          this.removedSymbols.add(symbol.text);
+          this.hoveredCoordinates.set(symbol.text, { x: symbol.x, y: symbol.y });
+        }
+      }
+    });
+
+    if (this.removedSymbols.size >= 1) {
+      if (this.verifyHoverOrder()) {
+        this.errorCount = 0; // Réinitialiser le compteur d'erreurs si la séquence est correcte
+        this.lastCorrectIndex = this.selectedCharacters.length - 1; // Réinitialiser l'index du dernier symbole correct
+      } else {
+        this.errorCount++;
+        console.log(`Error count: ${this.errorCount}`); // Log du compteur d'erreurs
+        if (this.errorCount >= this.maxErrorsBeforeReset) {
+          this.resetHoverState(); // Réinitialiser l'état après avoir atteint le nombre d'erreurs autorisées
+        }
+      }
+    }
+  }
+
+  verifyHoverOrder() {
+    const expectedSequence = ['0', '3', 'H'];
+    const hoveredSymbols = Array.from(this.removedSymbols);
+    const sequenceLength = expectedSequence.length;
+
+    if (hoveredSymbols.length <= sequenceLength) {
+      for (let i = 0; i < hoveredSymbols.length; i++) {
+        if (hoveredSymbols[i] !== expectedSequence[i]) {
+          this.lastCorrectIndex = i - 1; // Mettre à jour l'index du dernier symbole correct
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  allSymbolsRemovedInOrder() {
+    const expectedSequence = ['0', '3', 'H'];
+    const hoveredSymbols = Array.from(this.removedSymbols);
+
+    if (hoveredSymbols.length === expectedSequence.length) {
+      for (let i = 0; i < expectedSequence.length; i++) {
+        if (hoveredSymbols[i] !== expectedSequence[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  async uploadImage(imageData) {
+    const response = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Client-ID 3fec9cd76c9d3f7', // Votre Client ID
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ image: imageData.split(',')[1] }) // Enlever le préfixe 'data:image/png;base64,'
+    });
+    const data = await response.json();
+    return data.data.link; // Retourner le lien de l'image
+  }
+
+  createTwitterShareLink(pageLink) {
+  const text = encodeURIComponent(
+    "🌌⚡☄️💥🤖 A NEW WARRIOR HAS BEEN UNLEASHED!\n\n" +
+    "           🛠️⚡ Find the right runes to awaken yours! ☄️\n\n" + // Ajout d'espaces supplémentaires pour centrer les symboles
+    "➤[BTC Taproot address used to purchase this NFT!]\n\n" +
+    `Link: ${pageLink}\n\n` + // Ajout d'un saut de ligne avant les hashtags
+    "@NanoMorphers\n" +
+    "#MEonBTC #Ordinals #BTC #Runes #P2E #NFTs #NFTGame"
+  );
+  return `https://x.com/intent/tweet?text=${text}`;
+}
+
+////////////////////////////////////////////////
+getElapsedTime() {
+    let elapsedTime;
+    
+    if (matrix.gameCompleted) {
+        // Si le jeu est terminé, retourner le temps écoulé au moment de la fin du jeu
+        elapsedTime = (matrix.gameEndTime - this.chronoStartTime) / 1000;
+    } else {
+        // Sinon, calculer le temps écoulé en temps réel
+        elapsedTime = (Date.now() - this.chronoStartTime) / 1000;
+    }
+
+    // Si le temps est inférieur à 60 secondes, l'afficher en secondes avec deux décimales
+    if (elapsedTime < 60) {
+        return `${elapsedTime.toFixed(2)}s`;
+    } else {
+        // Si le temps dépasse 60 secondes, convertir en minutes et secondes
+        const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
+        const seconds = (elapsedTime % 60).toFixed(2);
+        return `${minutes}:${seconds.padStart(5, '0')}`; // Format MM:SS.ss
+    }
+}
+
+
+draw(context, gameStarted) {
+  if (!gameStarted) {
+    context.fillStyle = "#444444";
+    context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+    context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.shadowColor = `rgba(255, 255, 255, ${this.opacity})`;
+    //context.shadowColor = 'rgba(0, 0, 0, 1)';
+    context.shadowBlur = 10;
+    context.font = `${this.fontSize * 4}px '${this.fontStyle}'`; // Taille pour les symboles au centre du canvas
+
+const currentSymbol = this.characters[this.currentSymbolIndex];
+context.fillText(currentSymbol, this.canvasWidth / 2, this.canvasHeight / 2);
+
+/////////////
+} else if (this.allSymbolsRemovedInOrder()) {
+    ////////////////////////////
+
+    if (!matrix.gameCompleted) {
+            // Enregistrer l'heure de fin une fois que la séquence est complétée
+            matrix.gameEndTime = Date.now();
+
+if (!this.endSoundPlayed) {
+  //zzfx(...sounds[4]); // ✅ Son final (unique)
+  setTimeout(() => {
+    zzfx(...loopSound); // Premier son avec délai léger
+
+    this.loopSoundInterval = setInterval(() => {
+      zzfx(...loopSound); // 🎵 Boucle sonore en ambiance après activation
+    }, 2650);
+
+  }, 950); // 🕒 délai de démarrage contrôlé
+
+  this.endSoundPlayed = true;
+}
+
+            // Afficher de nouveau le curseur
+      document.body.style.cursor = 'crosshair';
+
+    // Masquer le curseur personnalisé
+    //customCursor.style.zIndex = '1';
+    customCursor.style.opacity = 0;
+    customCursor.style.display = 'none';
+        }
+
+  ///////////////////Background//////////////////
+// Définir la hauteur de chaque section en fonction des proportions
+const canvasHeight = this.canvasHeight;
+const canvasWidth = this.canvasWidth;
+const sections = [
+    { color: "#444444", heightRatio: 0.20 },  // 5%  - 5%
+    { color: "#373737", heightRatio: 0.35 },  // 25% - 30%
+    { color: "#444444", heightRatio: 0.15 },  // 45% - 75%
+    { color: "#373737", heightRatio: 0.30 }   // 25% - 100%
+];
+// Dessiner chaque section en utilisant des rectangles
+let yOffset = 0;
+sections.forEach(section => {
+    const sectionHeight = canvasHeight * section.heightRatio;
+    context.fillStyle = section.color;
+    context.fillRect(0, yOffset, canvasWidth, sectionHeight);
+    yOffset += sectionHeight;
+});
+
+//////////////////////                     /////////////////////////////
+// Diviser le message en lignes
+const message = this.descriptions['MESSAGE'];
+const lines = message.split("\n"); // Chaque ligne sera traitée séparément
+
+// Calculer la position de départ pour les lignes
+const startY = this.canvasHeight * 0.58; // Position de la première ligne (plus haut)
+const lineHeight = this.canvasHeight * 0.05; // Espacement vertical entre les lignes
+
+// Dessiner chaque ligne avec position et style adaptés
+lines.forEach((line, index) => {
+  const y = startY + index * lineHeight; // Calculer la position verticale de chaque ligne
+
+  // Ajuster le style pour chaque ligne
+  if (index === 0) {
+    // Ligne 0 : "[CONGRATULATION]"
+    context.font = `${this.canvasHeight * 0.03}px '${this.fontStyle}'`; // Taille légèrement plus petite
+    context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; // Couleur blanche
+  } else if (index === 1 || index === 2) {
+    // Ligne 1 : "A NEW MORPHER HAS BEEN"
+    // Ligne 2 : "UNLEASHED!"
+    context.font = `${this.canvasHeight * 0.024}px '${this.fontStyle}'`;
+    context.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; // Couleur verte
+  }
+
+  // Dessiner la ligne
+  context.font = `${this.fontSize * 0.45}px 'Press Start 2P', sans-serif`;
+  context.fillText(line, this.canvasWidth / 2, y);
+});
+
+//////////////////////
+
+// Calculer la position verticale pour centrer l'emoji
+const y = this.canvasHeight * 0.63; // Position verticale à 68% de la hauteur du canvas
+
+// Utiliser une proportion fixe de la largeur du canvas pour les positions des emojis
+const emojiSize = this.canvasWidth * 0.05; // Taille des emojis en fonction de la largeur du canvas
+const leftEmojiX = this.canvasWidth * 0.1; // Position fixe pour l'emoji gauche
+const rightEmojiX = this.canvasWidth * 0.9; // Position fixe pour l'emoji droit
+
+// Style pour les emojis
+context.font = `${emojiSize}px Arial`; // Définit la taille de l'emoji
+context.textAlign = 'center'; // Centrer horizontalement le texte
+context.textBaseline = 'middle'; // Centrer verticalement le texte
+
+// Réinitialiser la couleur pour les emojis (blanc et sans fade)
+context.fillStyle = 'rgba(255, 255, 255, 1)'; // Couleur blanche, pleine opacité
+context.shadowColor = 'rgba(0, 0, 0, 0.1)'; // Ombre noire
+context.shadowBlur = 0; // Pas de flou
+context.shadowOffsetX = this.canvasWidth * 0.0045; // Décalage horizontal de l'ombre
+context.shadowOffsetY = this.canvasWidth * 0.0045; // Décalage vertical de l'ombre
+
+// Afficher l'emoji à gauche
+context.fillText("▣", leftEmojiX, y);
+
+// Afficher l'emoji à droite
+context.fillText("▣", rightEmojiX, y);
+
+
+
+/////////////////////// Dessiner l'image si elle est chargée
+if (this.imageLoaded) {
+  // Calcul des dimensions et position de l'image en fonction de la taille actuelle du canvas
+  const imgWidth = this.canvasWidth * 0.35; // 50% de la largeur du canvas
+  const imgHeight = this.canvasHeight * 0.35; // 50% de la hauteur du canvas
+  const imgX = (this.canvasWidth - imgWidth) / 2; // Centrer l'image horizontalement
+  const imgY = this.canvasHeight * 0.2; // Positionner l'image à 10% du haut du canvas
+
+// Dessiner l'image sur le canvas
+context.drawImage(this.loadedImage, imgX, imgY, imgWidth, imgHeight);
+
+//////////Gestion de clic pour ouvrir le popup/////////////
+if (!this.imageClickEventAdded) {
+    const canvas = document.getElementById('matrix');
+    let clickHandled = false; // Empêcher les clics multiples rapides
+
+    const handleCursorChange = (event) => {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      let mouseX, mouseY;
+
+      if (event.type === 'mousemove') {
+        mouseX = (event.clientX - rect.left) * scaleX;
+        mouseY = (event.clientY - rect.top) * scaleY;
+      } else if (event.type === 'touchmove') {
+        const touch = event.touches[0];
+        mouseX = (touch.clientX - rect.left) * scaleX;
+        mouseY = (touch.clientY - rect.top) * scaleY;
+      }
+
+      const isMouseOverImage = mouseX >= imgX && mouseX <= imgX + imgWidth &&
+                               mouseY >= imgY && mouseY <= imgY + imgHeight;
+
+      if (event.type === 'mousemove') {
+        canvas.style.cursor = isMouseOverImage ? 'pointer' : 'crosshair';
+      }
+    };
+
+    canvas.addEventListener('mousemove', handleCursorChange);
+    canvas.addEventListener('touchmove', handleCursorChange);
+
+    const handleClick = (event) => {
+      if (clickHandled) return; // Bloquer l'action si elle est déjà en cours
+
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      let clickX, clickY;
+
+      if (event.type === 'click') {
+        clickX = (event.clientX - rect.left) * scaleX;
+        clickY = (event.clientY - rect.top) * scaleY;
+      } else if (event.type === 'touchend') {
+        const touch = event.changedTouches[0];
+        clickX = (touch.clientX - rect.left) * scaleX;
+        clickY = (touch.clientY - rect.top) * scaleY;
+      }
+
+      const adjustedImgX = imgX * scaleX;
+      const adjustedImgY = imgY * scaleY;
+      const adjustedImgWidth = imgWidth * scaleX;
+      const adjustedImgHeight = imgHeight * scaleY;
+
+      if (clickX >= adjustedImgX && clickX <= adjustedImgX + adjustedImgWidth &&
+          clickY >= adjustedImgY && clickY <= adjustedImgY + adjustedImgHeight) {
+        console.log("Image clicked!");
+        clickHandled = true; // Marquer le clic comme traité pour bloquer d'autres clics rapides
+
+       // Afficher la popup
+       show('popup');
+
+        // Réinitialiser `clickHandled` après un délai pour autoriser les prochains clics
+        setTimeout(() => {
+          clickHandled = false;
+        }, 1000); // Délai d'une seconde
+      }
+    };
+
+    canvas.addEventListener('click', handleClick);
+    canvas.addEventListener('touchend', handleClick);
+
+    this.imageClickEventAdded = true;
+  }
+
+ ///////////////////////////////////////// Dessiner le nom de l'image juste au-dessus de l'image////////////////////////////////////////
+// Dessiner le titre "NANO MORPHER"
+const titleFontSize = this.canvasHeight * 0.035; // Taille du texte proportionnelle à la hauteur du canvas
+const textOffset = this.canvasHeight * 0.12; // Décalage proportionnel pour le texte (2% de la hauteur du canvas)
+context.font = `${titleFontSize}px 'Press Start 2P', sans-serif`;
+context.fillStyle = "#ffffff";
+context.textAlign = "center";
+context.textBaseline = "bottom";
+context.fillText(this.imageTitle, this.canvasWidth / 2, (this.canvasHeight * 0.2) - textOffset); // Positionner le texte juste au-dessus de l'image
+
+// Dessiner "5 K 3" avec PixelRunes
+const codeFontSize = this.canvasHeight * 0.05; // Taille légèrement plus petite
+context.font = `${codeFontSize}px 'PixelRunes', sans-serif`;
+context.fillStyle = "#ffffff"; // Une couleur or pour le différencier
+context.fillText(this.imageCode, this.canvasWidth / 2, (this.canvasHeight * 0.17)); // Juste en dessous
+
+////////////////////////////////////Coordonnées de la zone cliquable
+
+
+/////////////////////////////////////////////////
+  // Configurer les propriétés de l'ombre
+  context.shadowColor = 'transparent';
+  //context.shadowColor = 'rgba(0, 0, 0, 1)'; // Couleur de l'ombre (noir avec 30% de transparence)
+  context.shadowBlur = 0; // Flou de l'ombre
+  context.shadowOffsetX = this.canvasWidth * 0.008; // Décalage 15px horizontal de l'ombre
+  context.shadowOffsetY = this.canvasWidth * 0.0015; // Décalage 10px vertical de l'ombre
+
+
+  // Dessiner l'image avec l'ombre
+  context.drawImage(this.loadedImage, imgX, imgY, imgWidth, imgHeight);
+
+  //Réinitialiser les propriétés de l'ombre pour les autres dessins
+  context.shadowColor = 'transparent';
+  context.shadowBlur = 0;
+  context.shadowOffsetX = 0;
+  context.shadowOffsetY = 0;
+}
+
+//////////
+
+// Dessiner le bouton de partage sous tous les symboles avec des coins arrondis
+const buttonY = this.canvasHeight / 2 + this.fontSize * 8.5; // Position du bouton en dessous des descriptions
+const buttonWidth = this.canvasWidth * 0.18; // Largeur du bouton
+const buttonHeight = this.canvasHeight * 0.06; // Hauteur du bouton
+const buttonX = this.canvasWidth / 2 - buttonWidth / 2; // Centrer le bouton
+
+const buttonRadius = 0; // Rayon des coins arrondis
+context.fillStyle = "#444444";
+context.beginPath();
+context.moveTo(buttonX + buttonRadius, buttonY);
+context.lineTo(buttonX + buttonWidth - buttonRadius, buttonY);
+context.quadraticCurveTo(buttonX + buttonWidth, buttonY, buttonX + buttonWidth, buttonY + buttonRadius);
+context.lineTo(buttonX + buttonWidth, buttonY + buttonHeight - buttonRadius);
+context.quadraticCurveTo(buttonX + buttonWidth, buttonY + buttonHeight, buttonX + buttonWidth - buttonRadius, buttonY + buttonHeight);
+context.lineTo(buttonX + buttonRadius, buttonY + buttonHeight);
+context.quadraticCurveTo(buttonX, buttonY + buttonHeight, buttonX, buttonY + buttonHeight - buttonRadius);
+context.lineTo(buttonX, buttonY + buttonRadius);
+context.quadraticCurveTo(buttonX, buttonY, buttonX + buttonRadius, buttonY);
+context.closePath();
+context.fill(); // Remplir le bouton
+
+// Dessiner le texte du bouton
+context.fillStyle = "#ffffff";
+context.textAlign = "center";
+context.textBaseline = "middle";
+  // Configurer les propriétés de l'ombre
+  context.shadowColor = 'rgba(0, 0, 0, 0.1)'; // Couleur de l'ombre (noir avec 30% de transparence)
+  context.shadowBlur = 0; // Flou de l'ombre
+  context.shadowOffsetX = this.canvasWidth * 0.005; // Décalage 5px horizontal de l'ombre
+  context.shadowOffsetY = this.canvasWidth * 0.0025; // Décalage 2.5px horizontal de l'ombre
+  
+context.font = `${this.fontSize * 0.45}px 'Press Start 2P', sans-serif`;
+context.fillText("SHARE", this.canvasWidth / 2, buttonY + buttonHeight / 2);
+
+ // Calculer la position du texte du temps écoulé juste au-dessus du bouton de partage
+ const elapsedTimeY = buttonY - this.canvasHeight * 0.135; // Position du texte 6% au-dessus du bouton
+
+// Afficher le temps écoulé avec le nouveau format
+const elapsedTime = this.getElapsedTime();
+context.fillStyle = "#FFFFFF"; // Couleur blanche pour le texte statique
+context.textAlign = "center"; // Centrer le texte
+context.textBaseline = "middle"; // Aligner verticalement au centre
+context.letterSpacing = `${this.canvasWidth * 0.0045}px`; // Espacement proportionnel à la largeur du canvas
+
+context.font = `${this.canvasHeight * 0.027}px '${this.fontStyle}'`; // Taille proportionnelle à la hauteur du canvas
+
+// Ligne 1 : Texte statique
+context.font = `${this.fontSize * 0.45}px 'Press Start 2P', sans-serif`;
+context.fillText("TIME ELAPSED FOR", this.canvasWidth / 2, elapsedTimeY);
+
+// Ligne 2 : "AWAKENING:"
+context.fillText(
+  "AWAKENING:",
+  this.canvasWidth / 2,
+  elapsedTimeY + this.canvasHeight * 0.04
+);
+
+// Ligne 3 : Temps affiché seul, si visible
+if (this.isTextVisible) {
+  context.fillStyle = "#ffffff"; // Couleur jaune pour le temps
+  context.fillText(
+    elapsedTime,
+    this.canvasWidth / 2,
+    elapsedTimeY + this.canvasHeight * 0.09 // Positionner la 3e ligne sous "AWAKENING:"
+  );
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+      if (!this.eventAdded) { // Vérifiez si l'événement a déjà été ajouté
+        const canvas = document.getElementById('matrix');
+        
+        const margin = 5; // Marge d'extension autour du bouton
+  canvas.addEventListener('click', async (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const clickY = event.clientY - rect.top;
+
+  if (
+    clickX >= buttonX &&
+    clickX <= buttonX + buttonWidth &&
+    clickY >= buttonY &&
+    clickY <= buttonY + buttonHeight
+  ) {
+
+    // Masquer le bouton de partage avec une marge
+    context.fillStyle = "#373737"; // Utilisez la couleur de fond de votre canvas
+    //context.clearRect(buttonX - margin, buttonY - margin, buttonWidth + 2 * margin, buttonHeight + 2 * margin);
+
+     //Réinitialiser les propriétés de l'ombre pour les autres dessins
+    context.shadowColor = 'transparent';
+    context.shadowBlur = 0;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.fillRect(buttonX - margin, buttonY - margin, buttonWidth + 2 * margin, buttonHeight + 2 * margin); // Masquer le bouton avec une marge
+
+    // Capturer l'image du canvas
+    const imageData = canvas.toDataURL('image/png');
+
+    // Remettre le bouton de partage
+    draw(context, gameStarted); // Remettre le bouton et tous les autres éléments
+
+    // Téléverser l'image sur Imgur
+    const imageLink = await this.uploadImage(imageData);
+
+    // Générer la page HTML avec les métadonnées Twitter Cards
+    const pageLink = `https://MetalMorphers.github.io/NanoMorphers/twitter-card.html?image=${encodeURIComponent(imageLink)}`;
+
+    // Créer le lien de partage sur Twitter
+    const twitterLink = this.createTwitterShareLink(pageLink);
+    
+    // Ouvrir le lien de partage dans un nouvel onglet
+    //window.open(twitterLink, '_blank');
+    //window.open(twitterLink, '_self');
+    window.open(twitterLink, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+  }
+});
+
+
+        this.eventAdded = true; // Marquer l'événement comme ajouté
+      }
+      //animation de fade in pour le message finaux
+      //this.opacity += 0.01;
+      if (this.opacity > 1) {
+        this.opacity = 1;
+      }
+
+      matrix.gameCompleted = true;
+
+const matrixCanvas = document.getElementById('matrix');
+matrixCanvas.style.opacity = 1;
+matrixCanvas.style.zIndex = 3;
+
+const viewportCanvas = document.getElementById('viewport');
+viewportCanvas.style.pointerEvents = 'none';
+
+// Appliquer un filtre de flou sur le canvas 'viewport'
+//viewportCanvas.style.filter = 'blur(4px)'; // Ajustez la valeur '3px' pour l'intensité du flou
+//viewportCanvas.style.opacity = 1;
+//viewportCanvas.style.zIndex = -1;
+viewportCanvas.style.display = "none";
+    } else {
+      this.symbols.forEach(symbol => symbol.draw(context, this.removedSymbols, this.hoverCounts, this.hoveredCoordinates));
+      this.hoveredCoordinates.forEach((coords, char) => {
+        if (this.verifyHoverOrder()) {
+          context.fillStyle = "#6c5c25";
+          //context.shadowColor = "transparent";
+          context.shadowColor = "#6c5c25";
+          context.shadowBlur = 10;
+          context.font = `${this.fontSize}px '${this.fontStyle}'`;
+          const centerX = coords.x * this.fontSize + this.fontSize / 2;
+          const centerY = coords.y * this.fontSize;
+          context.fillText(char, centerX, centerY);
+        }
+      });
+    }
+  }
+}
+
+
+class Matrix {
+  constructor(canvasViewport, canvasMatrix) {
+    this.last = 0;
+    this.fps = 30;
+    this.canvas = canvasMatrix;
+    this.ctx = this.canvas.getContext("2d");
+    this.canvas.width = canvasMatrix.clientWidth;
+    this.canvas.height = canvasMatrix.clientHeight;
+    this.effect = new Effect(this.canvas.width, this.canvas.height, 'PixelRunes');
+    this.nextFrame = 500 / this.fps;
+    this.timer = 0;
+    this.gameStarted = false;
+    this.mousePressed = false;
+    this.touchActive = false;
+    this.gameCompleted = false;
+    this.startDelay = 100; // 5 seconds delay for memorizing the symbol
+    this.holdStartTime = 0;
+
+    this.gameEndTime = null; // Initialiser l'heure de fin à null
+
+    this.canvas = canvas;
+    this.context = canvas.getContext('2d');
+    this.mouseX = 0;
+    this.mouseY = 0;
+
+    this.canvas = canvasMatrix;
+    this.symbolRadius = 100; // Valeur par défaut, ajustée initialement
+    this.resize(); // Appel initial pour configurer la taille
+    window.addEventListener('resize', () => this.resize()); // Écouteur de redimensionnement
+
+    // Ajouter ces deux lignes
+    this.hoverDelay = 3000; // délai de 3 secondes
+    this.gameStartTime = 0; // initialiser à 0
+
+    // Event handling for canvasViewport
+    canvasViewport.addEventListener('mousedown', this.handleMouseDown.bind(this));
+    canvasViewport.addEventListener('mousemove', this.handleMouseMove.bind(this));
+    canvasViewport.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    canvasViewport.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+
+    // Touch events handling for canvasViewport
+    canvasViewport.addEventListener('touchstart', this.handleTouchStart.bind(this));
+    canvasViewport.addEventListener('touchmove', this.handleTouchMove.bind(this));
+    canvasViewport.addEventListener('touchend', this.handleTouchEnd.bind(this));
+    canvasViewport.addEventListener('touchcancel', this.handleTouchEnd.bind(this));
+  }
+
+resize() {
+  this.canvas.width = this.canvas.clientWidth;
+  this.canvas.height = this.canvas.clientHeight;
+  this.effect.resize(this.canvas.width, this.canvas.height);
+
+  // Recalculer symbolRadius en fonction de la taille du canvas ou d'autres critères
+  this.symbolRadius = this.calculateSymbolRadius();
+  console.log('Symbol radius:', this.symbolRadius);
+
+  function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  // Gestion du redimensionnement pour PC
+  if (!isMobile()) {
+    window.addEventListener('resize', () => {
+      window.location.reload(); // Recharge la page du navigateur sur redimensionnement
+      centerCursor(); // Assure que le curseur est centré
+    });
+  }
+
+  // Gestion du redimensionnement pour mobile
+  if (isMobile()) {
+    let previousWidth = window.innerWidth;
+    let previousHeight = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      const currentWidth = window.innerWidth;
+      const currentHeight = window.innerHeight;
+
+      // Recharger uniquement si le jeu n'est pas terminé
+      if (!this.gameCompleted && (currentWidth !== previousWidth || currentHeight !== previousHeight)) {
+        window.location.reload(); // Recharge lors du redimensionnement si le jeu n'est pas terminé
+      }
+
+      previousWidth = currentWidth;
+      previousHeight = currentHeight;
+      
+      centerCursor(); // Assure que le curseur est centré
+    });
+
+    // Gestion du changement d'orientation
+    window.addEventListener('orientationchange', () => {
+      window.location.reload(); // Recharge lors du changement d'orientation, indépendamment de l'état du jeu
+    });
+  }
+}
+
+
+  calculateSymbolRadius() {
+    // Exemple de calcul basé sur la taille de la police ou d'autres critères
+    const symbolFontSize = this.effect.fontSize; // Assurez-vous que c'est correct pour votre application
+    return symbolFontSize * 2; // Ajustement basé sur la taille de la police, par exemple
+  }
+
+  update(deltaTime) {
+  // Commenter ou supprimer l'appel à checkRestart
+  // this.checkRestart();
+  this.timer += deltaTime;
+  if (this.timer > this.nextFrame) {
+    this.ctx.fillStyle = "#0000000d";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.effect.draw(this.ctx, this.gameStarted);
+    this.timer = 0;
+  }
+}
+
+  animation(timestamp) {
+    const deltaTime = timestamp - this.last;
+    this.last = timestamp;
+    this.update(deltaTime);
+    requestAnimationFrame(this.animation.bind(this));
+  }
+
+
+  ///////Lorsqu'un événement de clic de souris est détecté, la méthode handleMouseDown est appelée pour effectue les opérations suivantes:///////
+  handleMouseDown(event) {
+  if (event.button === 0) {
+    const rect = this.canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    if (event.clientX >= rect.left && event.clientX <= rect.right &&
+        event.clientY >= rect.top && event.clientY <= rect.bottom) {
+      this.mousePressed = true;
+      this.holdStartTime = Date.now(); // Start holding time
+      this.checkStartGame(mouseX, mouseY); // Vérifie si le jeu doit commencer
+    }
+  }
+}
+///////////////
+
+handleMouseMove(event) {
+  if (this.mousePressed) {
+    const rect = this.canvas.getBoundingClientRect();
+
+    this.mouseX = event.clientX;
+    this.mouseY = event.clientY;
+
+    // 🔁 Convertir wormTrail[0] vers coordonnées locales canvas :
+    const wormX = wormTrail[0].x - rect.left;
+    const wormY = wormTrail[0].y - rect.top;
+
+    this.effect.updateHover(wormX, wormY); // ✅ Le worm déclenche les collisions
+  }
+}
+
+
+  handleMouseUp(event) {
+    if (event.button === 0) {
+      this.mousePressed = false;
+      this.checkRestart();
+    }
+  }
+  handleMouseLeave(event) {
+    this.mousePressed = false;
+    //this.checkRestart();
+  }
+
+///////////////////
+  handleTouchStart(event) {
+    event.preventDefault(); // Prévenir le comportement par défaut
+    const rect = this.canvas.getBoundingClientRect();
+    const touchX = event.touches[0].clientX - rect.left;
+    const touchY = event.touches[0].clientY - rect.top;
+
+    console.log(`Touch Start: touchX=${touchX}, touchY=${touchY}`);
+
+    if (touchX >= 0 && touchX <= rect.width && touchY >= 0 && touchY <= rect.height) {
+      this.touchActive = true;
+      this.holdStartTime = Date.now(); // Démarre le chronométrage
+      this.checkStartGame(touchX, touchY); // Vérifie si le jeu doit commencer
+    }
+  }
+
+
+
+  handleTouchMove(event) {
+    if (this.touchActive) {
+        const rect = this.canvas.getBoundingClientRect();
+        const touchX = event.touches[0].clientX - rect.left;
+        const touchY = event.touches[0].clientY - rect.top;
+
+        // Vérification si le toucher est en dehors des limites du canvas
+        if (touchX < 0 || touchX > rect.width || touchY < 0 || touchY > rect.height) {
+            console.log("Touch moved outside the canvas. Resetting state.");
+            this.touchActive = false; // Désactive l'état tactile
+            isTouchActive = false; // ← ✅ AJOUT OBLIGATOIRE pour arrêter le worm
+            //this.checkRestart(); // Réinitialise l'état
+            return; // Sortir pour ne pas continuer le traitement
+        }
+
+        // Si le toucher est toujours dans les limites
+        this.mouseX = event.touches[0].clientX;
+        this.mouseY = event.touches[0].clientY;
+
+        // ✅ Interaction déclenchée par la tête du worm
+        const wormX = wormTrail[0].x - rect.left;
+        const wormY = wormTrail[0].y - rect.top;
+
+        this.effect.updateHover(wormX, wormY);
+    }
+}
+
+
+
+  handleTouchEnd(event) {
+    this.touchActive = false;
+    isTouchActive = false; // Pour désactiver le worm
+    //this.checkRestart();
+  }
+
+///////////////////////////////////
+
+  checkRestart() {
+    const minHoldDuration = 5; // Durée minimale à maintenir (en millisecondes)
+    const holdDuration = Date.now() - this.holdStartTime;
+    if (this.gameCompleted) return; // Empêche le redémarrage si le jeu est terminé
+    if (holdDuration >= minHoldDuration) {
+      // Vérifie si le curseur est à l'intérieur du canvas
+      const rect = this.canvas.getBoundingClientRect();
+      const mouseX = this.mouseX - rect.left;
+      const mouseY = this.mouseY - rect.top;
+      
+      if (mouseX >= 0 && mouseX <= rect.width && mouseY >= 0 && mouseY <= rect.height) {
+        this.resetCanvas();
+      }
+    }
+  }
+
+  resetCanvas() {
+  // 🔁 Stopper la boucle sonore si elle existe
+  if (this.effect.loopSoundInterval) {
+    clearInterval(this.effect.loopSoundInterval);
+    this.effect.loopSoundInterval = null;
+  }
+
+  // ✅ Réinitialiser l'état sonore
+  this.effect.endSoundPlayed = false;
+
+  // 🧠 Réinitialiser tout le jeu
+  this.effect = new Effect(this.canvas.width, this.canvas.height, 'PixelRunes');
+  this.gameStarted = false;
+  this.gameCompleted = false;
+  this.holdStartTime = 0;
+}
+
+
+//Cette méthode détermine si le jeu doit commencer en fonction de la position du clic
+  checkStartGame(x, y) {
+    // Assure-toi que cette méthode vérifie si le jeu doit commencer
+    console.log(`Checking start game at coordinates: x=${x}, y=${y}`);
+    const symbolCenterX = this.canvas.width / 2;
+    const symbolCenterY = this.canvas.height / 2;
+
+    // Calcul dynamique de symbolRadius en fonction de la taille du canvas ou d'autres critères
+    const symbolRadius = this.calculateSymbolRadius();
+
+    const distance = Math.sqrt(Math.pow(x - symbolCenterX, 2) + Math.pow(y - symbolCenterY, 2));
+    if (distance <= symbolRadius) {
+      console.log('Starting the game...');
+      this.startGame();
+    }
+  }
+
+  startGame() {
+  // Logique pour démarrer le jeu
+  console.log('Game started!');
+  this.gameStarted = true;
+  this.gameStartTime = Date.now(); // Enregistrer l'heure de début du jeu
+
+  // Initialiser le temps écoulé seulement si le jeu commence
+  this.effect.chronoStartTime = Date.now(); // Démarrage du chronomètre
+}
+
+//////////////////////////////////////
+
+  updateMouseHover(clientX, clientY) {
+    const rect = this.canvas.getBoundingClientRect();
+    const mouseX = clientX - rect.left;
+    const mouseY = clientY - rect.top;
+    this.effect.updateHover(mouseX, mouseY);
+  }
+}
+
+function calculateFontSize(vmin, canvasWidth, canvasHeight) {
+  return (Math.min(canvasWidth, canvasHeight) * vmin) / 115;      // calcul de la taille des symboles.
+}
+
+const canvas = document.getElementById("matrix");
+const matrix = new Matrix(document.getElementById('viewport'), canvas);
+
+const animate = (time) => {
+  const deltaTime = time - matrix.last;
+  matrix.last = time;
+  if (matrix.timer > matrix.nextFrame) {
+    matrix.ctx.textAlign = "center";
+    matrix.ctx.fillStyle = "#1313133d";
+    matrix.ctx.fillRect(0, 0, matrix.canvas.width, matrix.canvas.height);
+    matrix.ctx.font = `${matrix.effect.fontSize}px 'Press Start 2P'`;
+
+    matrix.effect.draw(matrix.ctx, matrix.gameStarted);
+    matrix.timer = 0;
+  } else {
+    matrix.timer += deltaTime;
+  }
+  requestAnimationFrame(animate);
+};
+
+animate(0);
+
+window.addEventListener("resize", () => {
+  matrix.resize();
+});
+
+// Transfert des événements de canvasViewport à canvasMatrix
+const canvasViewport = document.getElementById('viewport');
+const canvasMatrix = document.getElementById('matrix');
+
+function transferEvents(event) {
+  event.preventDefault();
+
+  let clientX, clientY;
+  if (event.touches && event.touches.length > 0) {
+    clientX = event.touches[0].clientX;
+    clientY = event.touches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+
+  const type = event.type.includes('touch') ? event.type.replace('touch', 'mouse') : event.type;
+
+  const mouseEvent = new MouseEvent(type, {
+    clientX: clientX,
+    clientY: clientY,
+    bubbles: true,
+    cancelable: true,
+    view: window
+  });
+
+  canvasMatrix.dispatchEvent(mouseEvent);
+}
+
+['mousedown', 'mousemove', 'mouseup', 'mouseleave', 'touchstart', 'touchmove', 'touchend'].forEach(eventType => {
+  canvasViewport.addEventListener(eventType, transferEvents);
+});
+
+
+
+// https://killedbyapixel.github.io/ZzFX/
+
+// script.js
+'use strict';
+
+let zzfx, zzfxV, zzfxX;
+
+// ZzFXMicro - Zuper Zmall Zound Zynth - v1.1.8 ~ 884 bytes minified
+zzfxV = .4; // volume
+zzfx = (p=1, k=.05, b=220, e=0, r=0, t=.1, q=0, D=1, u=0, y=0, v=0, z=0, l=0, E=0, A=0, F=0, c=0, w=1, m=0, B=0) => {
+    let M = Math, R = 44100, d = 2 * M.PI, G = u *= 500 * d / R / R, C = b *= (1 - k + 2 * k * M.random(k=[])) * d / R,
+    g = 0, H = 0, a = 0, n = 1, I = 0, J = 0, f = 0, x, h;
+    e = R * e + 9;
+    m *= R;
+    r *= R;
+    t *= R;
+    c *= R;
+    y *= 500 * d / R ** 3;
+    A *= d / R;
+    v *= d / R;
+    z *= R;
+    l = R * l | 0;
+    for (h = e + m + r + t + c | 0; a < h; k[a++] = f) {
+        ++J % (100 * F | 0) || (f = q ? 1 < q ? 2 < q ? 3 < q ? M.sin((g % d) ** 3) : M.max(M.min(M.tan(g), 1), -1) : 1 - (2 * g / d %2 + 2) % 2 : 1 - 4 * M.abs(M.round(g / d) - g / d) : M.sin(g),
+        f = (l ? 1 - B + B * M.sin(d * a / l) : 1) * (0 < f ? 1 : -1) * M.abs(f) ** D * p * zzfxV * (a < e ? a / e : a < e + m ? 1 - (a - e) / m * (1 - w) : a < e + m + r ? w : a < h - c ? (h - a - c) / t * w : 0),
+        f = c ? f / 2 + (c > a ? 0 : (a < h - c ? 1 : (h - a) / c) * k[a - c | 0] / 2) : f),
+        x = (b += u += y) * M.cos(A * H++), g += x - x * E * (1 - 1E9 * (M.sin(a) + 1) % 2), n && ++n > z && (b += v, C += v, n = 0), !l || ++I % l || (b = C, u = G, n = n || 1);
+    }
+    p = zzfxX.createBuffer(1, h, R);
+    p.getChannelData(0).set(k);
+    b = zzfxX.createBufferSource();
+    b.buffer = p;
+    b.connect(zzfxX.destination);
+    b.start();
+    return b;
+};
+
+// Initialisation de l'AudioContext
+// Initialisation de l'AudioContext
+zzfxX = new (window.AudioContext || webkitAudioContext)(); // audio context
+
+// Définition des sons
+const sounds = [
+      //[1.04,.05,363,.01,.15,.32,2,1.15,1.6,0,-56,.09,.05,.2,43,.2,0,.78,.25,.45],
+   //[2.05,.05,367,0,.03,.06,3,.87,-0.9,0,0,0,.03,1.7,2.3,0,.21,.72,.07,.46],
+  //[1.08,.05,379,.05,.24,.48,1,1.6,-0.1,0,40,.15,.11,0,21,.1,0,.47,.26,.05]
+  //[1.35,.05,127,.05,.25,.26,1,.55,-8.1,0,0,0,.1,0,0,0,.11,.91,.17,0]
+ //[1.08, .05, 235, .04, .2, .21, 2, .46, -0.1, 0, 0, 0, .05, 0, 3.9, 0, 0, .71, .3, .39]
+    //[1, .05, 172, 0, .01, .01, 1, .05, 0, 0, 0, 0, 0, 0, 0, 0, 0, .72, .01, 0], // Son pour l'ordre correct
+    //[2.03,.05,363,.01,.07,.07,1,.11,-5.7,0,0,0,.06,0,0,.1,.24,.81,.05,.36] 
+    [2.03,.05,107,.05,.06,.52,0,.28,0,0,0,0,.19,.6,0,.7,.34,.46,.06,0], // Son pour l'ordre correct
+    [1.6,,83,.01,.06,.18,,2.7,6,19,,,.02,.3,,.3,.26,.74,.19,.19,789], // Son pour l'ordre incorrect
+    [1.04,.05,363,.01,.15,.32,2,1.15,1.6,0,-56,.09,.05,.2,43,.2,0,.78,.25,.45], // Son pour les survols suivants
+    [.4,.05,10,.04,.05,.01,0,1,0,0,418,.14,0,0,0,-1.6,0,.95,.1,0,165], // Son pour le survol
+    ////////////////////[1,.05,571,.01,.01,.01,4,4.4,0,0,0,0,.02,0,116,.1,0,.61,.01,.06,586],// Son pour le survol
+    //[.8,.05,69,0,.05,.04,4,.1,0,18,0,0,0,0,73,.3,0,.77,.01,.01,100],/////////////////// Son pour le survol
+    //[1.2,,69,,.05,.04,4,.1,,18,,,,,73,.3,,.77,.01,.01,100], // Son pour le survol
+    //[,,93,.02,.01,.04,2,.7,,,,,,,42,,,.93,.02], // Son pour le survol 2
+    [,,215,.09,.27,.42,,3.9,-4,,,,.1,,,,,.67,.24,.47] // Son pour la fin du jeu
+    //[2.2,0,40,.5,.71,.5,1,2.5,0,0,0,0,.35,0,0,.1,.45,1.3,.3,.4,0] // 2eme Son en boucle pour la fin du jeu
+    //[1,.05,172,0,.01,.01,1,.05,0,0,0,0,0,0,0,0,0,.72,.01,0], // Autre son
+    //[1.4,,66,.06,.29,.46,2,3,,,,,,.8,19,.7,,.48,.12,,-3446]
+    //[1.01,.05,122,.02,.3,.24,1,.05,-8.2,0,0,0,.06,0,0,.1,0,.71,.1,0]
+    
+];
+const loopSound = [2.2, 0, 40, .5, .71, .5, 1, 2.5, 0, 0, 0, 0, .35, 0, 0, .1, .45, 1.3, .3, .4, 0];
+
+// Fonction pour jouer un son
+function playSound(index) {
+    const sound = sounds[index];
+    zzfx(...sound);
+}
+
+// Fonction de suppression de caractères
+Symbol.prototype.removeCharacter = function(char, removedSymbols, hoverCounts, hoveredCoordinates) {
+    hoverCounts[char] = (hoverCounts[char] || 0) + 1;
+
+    if (hoverCounts[char] === 1) {
+        this.characters = this.characters.replace(char, '').trim();
+        this.selectedCharacters.delete(char);
+        removedSymbols.add(char);
+        hoveredCoordinates.set(char, { x: this.x, y: this.y });
+
+        // Jouer le son lorsque le symbole est survolé pour la première fois
+        if (matrix.effect.verifyHoverOrder()) {
+            playSound(0); // Son pour l'ordre correct
+        } else {
+            playSound(1); // Son pour l'ordre incorrect
+        }
+    } else if (hoverCounts[char] >= 2) {
+        // Jouer le son correspondant à l'ordre incorrect pour les survols suivants
+        playSound(2); // Son pour les survols suivants
+    }
+
+    // Vérifier si le jeu est terminé
+    checkGameCompletion();
+};
+
+// Fonction pour vérifier si le jeu est terminé et jouer le son correspondant
+function checkGameCompletion() {
+    if (matrix.effect.allSymbolsRemovedInOrder()) {
+        playSound(4); // Jouer le son pour la fin du jeu
+    }
+}
+/////////////////////snd animation////////////////////////////
+// Sounds for each animation
+const beamSound = [.5,.05,474,.09,.13,.3,0,2.7,-4,0,-84,.09,.01,0,34,0,0,.81,.26,.41,-597];
+const backSound = [1.1,.05,87,.07,.27,.42,2,3.3,-8,0,0,0,.25,2,0,.9,0,.39,.22,.04,0];
+//const groundSound = [.7, .45, 340, 0, .23, .36, 3, .2, -43, 1, 0, 0, .02, 0, -1, -0.2, 0, .74, .01, 0, 0];
+const groundSound = [4.1,.05,143,0,.1,.05,0,3.8,-6,16,0,0,.06,0,0,0,.26,.59,.1,.28,0];
+
+// Function to play the beam sound with an echo effect
+function playBeamSoundWithEcho() {
+    zzfx(...beamSound); // Play the original sound
+
+    // Echo effect: repeat with decreasing volume
+    const echoDelay = 300;
+    const repetitions = 3;
+    let currentVolume = 0.8;
+
+    for (let i = 1; i <= repetitions; i++) {
+        setTimeout(() => {
+            const soundWithEcho = [...beamSound];
+            soundWithEcho[0] = soundWithEcho[0] * currentVolume;
+            zzfx(...soundWithEcho);
+            currentVolume *= 0.5;
+        }, echoDelay * i);
+    }
+}
+
+// Play sound once for `backSound` animation
+function playBackSound() {
+    zzfx(...backSound);
+}
+
+// Play sound once for `groundSound` animation
+function playGroundSound() {
+    zzfx(...groundSound);
+}
+
+// Detect each animation start and trigger the respective sounds
+document.querySelector('.beamcard.active .beam').addEventListener('animationstart', playBeamSoundWithEcho);
+document.querySelector('.beamcard.active .back').addEventListener('animationstart', playBackSound);
+document.querySelector('.beamcard.active .ground').addEventListener('animationstart', playGroundSound);
+
+// === CURSEUR DIV PIXELISÉ avec suivi et inactivité ===
+const customCursor = document.getElementById("worm-cursor");
+const wormTrail = [];
+let segmentCount = 35; // ⚠️ prêt pour déduction plus tard
+const maxSize = 2.5; // vmin
+const minSize = 0.6; // vmin
+const followSpeed = 0.5; // 🐌 plus petit = plus fluide
+
+let matrixEnded = false;
+let isTouchActive = false;
+
+// === Wander mode : mouvement automatique
+let isWormWandering = false;
+let wanderInterval = null;
+
+let targetX = window.innerWidth / 2;
+let targetY = window.innerHeight / 2;
+const touchOffset = { x: 0, y: -0 }; // ↖️ ajustement curseur mobile
+
+// === Création des segments
+for (let i = 0; i < segmentCount; i++) {
+  const seg = document.createElement("div");
+  seg.className = "cursor-segment";
+  seg.style.visibility = "hidden";
+  document.body.appendChild(seg);
+  wormTrail.push({ el: seg, x: targetX, y: targetY });
+}
+
+// === Fade-in/out des segments (utilisé uniquement dans certains cas)
+function setFadeInactive(active) {
+  if (active) {
+    customCursor.classList.remove("inactive");
+    wormTrail.forEach((seg, i) => {
+      if (i !== 0) seg.el.classList.remove("inactive");
+    });
+  } else {
+    customCursor.classList.add("inactive");
+    wormTrail.forEach((seg, i) => {
+      if (i !== 0) seg.el.classList.add("inactive");
+    });
+  }
+}
+
+// === Centrage classique (encore utilisé dans le load)
+function centerCursor() {
+  if (matrixEnded) return;
+  const rect = canvasViewport.getBoundingClientRect();
+  targetX = rect.left + rect.width / 2;
+  targetY = rect.top + rect.height / 2;
+  setFadeInactive(false);
+}
+
+// === Vérifie si position dans le canvas
+function isInsideCanvas(event) {
+  const rect = canvasViewport.getBoundingClientRect();
+  const x = event.clientX || (event.touches && event.touches[0].clientX);
+  const y = event.clientY || (event.touches && event.touches[0].clientY);
+  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
+// === Interpolation
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+// === Animation du worm
+function animateCursor() {
+  if (matrixEnded) return;
+
+  // Tête suit la cible
+  wormTrail[0].x = lerp(wormTrail[0].x, targetX, followSpeed);
+  wormTrail[0].y = lerp(wormTrail[0].y, targetY, followSpeed);
+
+  // Segments suivent chacun le précédent
+  for (let i = 1; i < wormTrail.length; i++) {
+    wormTrail[i].x = lerp(wormTrail[i].x, wormTrail[i - 1].x, 0.5);
+    wormTrail[i].y = lerp(wormTrail[i].y, wormTrail[i - 1].y, 0.5);
+  }
+
+  // Mise à jour visuelle
+  for (let i = 1; i < wormTrail.length; i++) {
+    const t = i / (wormTrail.length - 1);
+    const size = lerp(maxSize, minSize, t);
+    const seg = wormTrail[i].el;
+    seg.style.left = `${wormTrail[i].x}px`;
+    seg.style.top = `${wormTrail[i].y}px`;
+    seg.style.width = `${size}vmin`;
+    seg.style.height = `${size}vmin`;
+    seg.style.visibility = "visible";
+  }
+
+  customCursor.style.left = `${wormTrail[0].x}px`;
+  customCursor.style.top = `${wormTrail[0].y}px`;
+
+  requestAnimationFrame(animateCursor);
+}
+
+// === shake GSAP
+function triggerScreenShake(intensity = 1, duration = 0.3) {
+  const shakePower = 10 * intensity;
+  const tl = gsap.timeline();
+
+  for (let i = 0; i < 5; i++) {
+    const offsetX = (Math.random() - 0.5) * shakePower;
+    const offsetY = (Math.random() - 0.5) * shakePower;
+    tl.to(".canvas-container", {
+      x: offsetX,
+      y: offsetY,
+      duration: duration / 5,
+      ease: "power1.inOut"
+    }, i * (duration / 5));
+  }
+
+  // Retour à la position normale
+  tl.to(".canvas-container", {
+    x: 0,
+    y: 0,
+    duration: 0.05
+  });
+}
+
+// === Punition visuelle : recentrage + shake
+function punishWormAtBorder() {
+  if (matrixEnded) return;
+
+  isTouchActive = false;
+  isMouseDown = false;
+  triggerScreenShake(1, 0.3); // ✅ vibration GSAP au lieu du shake CSS
+  // 💥 Recentrage brutal sans effet de shake
+  const rect = canvasViewport.getBoundingClientRect();
+  targetX = rect.left + rect.width / 2;
+  targetY = rect.top + rect.height / 2;
+
+  // ⚠️ Plus tard : segmentCount -= 10; if (segmentCount <= 0) { ... }
+}
+
+
+// === Wander autonome
+function enterWanderMode() {
+  if (isWormWandering || matrixEnded) return;
+  isWormWandering = true;
+
+  wanderInterval = setInterval(() => {
+    if (!isTouchActive && !isMouseDown && !matrixEnded) {
+      const rect = canvasViewport.getBoundingClientRect();
+      const margin = 30;
+      const jitterRange = 80;
+
+      let nextX = targetX + (Math.random() * 2 - 1) * jitterRange;
+      let nextY = targetY + (Math.random() * 2 - 1) * jitterRange;
+
+      nextX = Math.max(rect.left + margin, Math.min(rect.right - margin, nextX));
+      nextY = Math.max(rect.top + margin, Math.min(rect.bottom - margin, nextY));
+
+      targetX = nextX;
+      targetY = nextY;
+    }
+  }, 1000);
+}
+
+function exitWanderMode() {
+  isWormWandering = false;
+  clearInterval(wanderInterval);
+}
+
+// === Inactivité
+let inactivityTimeout;
+function resetInactivity() {
+  clearTimeout(inactivityTimeout);
+  setFadeInactive(true);
+  exitWanderMode();
+
+  if (!isMouseDown && !isTouchActive && !matrixEnded) {
+    inactivityTimeout = setTimeout(() => {
+      enterWanderMode();
+    }, 1000);
+  }
+}
+
+// === Fade automatique des segments (non bloquant)
+let fadeTimeout;
+function resetFade() {
+  wormTrail.forEach((seg, index) => {
+    if (index !== 0) seg.el.classList.remove("faded");
+  });
+
+  clearTimeout(fadeTimeout);
+  fadeTimeout = setTimeout(() => {
+    wormTrail.forEach((seg, index) => {
+      if (index !== 0) seg.el.classList.add("faded");
+    });
+  }, 100);
+}
+
+// === Souris
+canvasViewport.addEventListener("mousemove", (e) => {
+  if (!isInsideCanvas(e) || matrixEnded) return;
+  targetX = e.clientX;
+  targetY = e.clientY;
+  setFadeInactive(true);
+  resetInactivity();
+  resetFade();
+});
+
+canvasViewport.addEventListener("mousedown", (e) => {
+  if (!isInsideCanvas(e) || matrixEnded) return;
+  isMouseDown = true;
+  setFadeInactive(true);
+  clearTimeout(inactivityTimeout);
+});
+
+canvasViewport.addEventListener("mouseup", () => {
+  isMouseDown = false;
+  resetInactivity();
+});
+
+// === Mobile
+canvasViewport.addEventListener("touchstart", () => {
+  isTouchActive = true;
+  setFadeInactive(true);
+  clearTimeout(inactivityTimeout);
+});
+
+canvasViewport.addEventListener("touchmove", (e) => {
+  if (!isTouchActive || matrixEnded) return;
+
+  // 🧱 Sortie → punition
+  if (!isInsideCanvas(e)) {
+    punishWormAtBorder();
+    return;
+  }
+
+  const touch = e.touches[0];
+  targetX = touch.clientX + touchOffset.x;
+  targetY = touch.clientY + touchOffset.y;
+  setFadeInactive(true);
+  resetInactivity();
+  resetFade();
+});
+
+canvasViewport.addEventListener("touchend", () => {
+  isTouchActive = false;
+  resetInactivity();
+});
+
+// === Détection sortie canvas souris
+canvasViewport.addEventListener("mouseleave", () => {
+  punishWormAtBorder(); // 💥
+});
+
+canvasViewport.addEventListener("mouseenter", () => {
+  customCursor.style.display = "block";
+  document.body.style.cursor = "true";
+});
+
+// === Initialisation
+window.addEventListener("load", () => {
+  centerCursor();
+  animateCursor();
+  resetFade();
+});
+
+
+</script>
+</body>
+</html>
